@@ -1,2 +1,2 @@
-# DIY-esp32-esphome-homeassistant-sensors_cams
-Article about my DIY Project to engineer and use esp32 based Temperature, Humidity, CO2 sensors and esp32 Cameras with esphome for Home Assistant. Design, 3d print, wiring, itertions, config, calibration description.
+# Engineering of DIY Esp32 Temperature, Humidity and CO2 Esphome Sensors and Esp32 Cameras for use in Home Assisant
+Article about my DIY Project to engineer and use esp32 based Temperature, Humidity, CO2 sensors and esp32 Cameras with esphome for Home Assistant. Design(Autocad Inventor), 3d printing, wiring, design flaws and itertions, configuration, calibration description. Thoughts and conclusions on DIY IOT(Internet of Things) devices and how they differ in hands-on experience from commercial products. Learning experience.
