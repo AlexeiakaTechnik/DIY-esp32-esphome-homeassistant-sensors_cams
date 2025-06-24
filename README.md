@@ -261,15 +261,301 @@ light:
     name: "Sensor RGB LED"
     id: esp32_led
 ```
-For network configuration I strongly reccomend using Static IPv4s, Static DHCP entries(bind device MAC to local IP). If you want a reliable, stress-proof system which will come back from power outages, networking issues/router faults - set as much manually as you can/consider healthy =) For me, with 100+ IoT devices of different sorts/brands/price ranges I had to learn it the hard way. For example I am happily using separate DHCP Server running as [HA Add-on](https://github.com/f18m/ha-addon-dnsmasq-dhcp/tree/main) instead of shitty trimmed-down version found on a lot of consumer=level network equipment - my tp-link as a good example of such case. But maybe you have a great network with Mikrotiks/Ubiquty/PFsense/etc. devices and sys-admin level skills, so you do you.
 
----
 
 For **CO2/Temp/Humid(SCD41)** devices I have used following configuration:
 ```yaml
+esphome:
+  name: iot-esp32-bedroomnew-co2th
+  friendly_name: Home CO₂/T/H Sensor – Bedroom
+  name_add_mac_suffix: false
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino  # Arduino framework for broad compatibility
+
+# Enable logging for debugging (via serial)
+logger:
+
+# Home Assistant API for native integration
+api:
+  encryption:
+    key: "REPLACE_WITH_API_ENCRYPTION_KEY"
+
+# Enable OTA firmware updates
+ota:
+  - platform: esphome
+    password: "REPLACE_WITH_OTA_PASSWORD"
+
+# Static IP configuration for reliability
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  power_save_mode: none
+  domain: .your-domain.local
+  manual_ip:
+    static_ip: 192.168.1.176
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+    dns1: 192.168.1.1
+    dns2: 8.8.8.8
+
+# I²C communication bus for SCD41 sensor
+i2c:
+  sda: GPIO8
+  scl: GPIO9
+  scan: true
+  id: bus_a
+
+# SCD41 sensor – measures CO₂, temperature, humidity
+sensor:
+  - platform: scd4x
+    id: scd41
+    co2:
+      name: "CO2 Bedroom"
+      accuracy_decimals: 0
+      unit_of_measurement: "ppm"
+      id: scd41co2
+    temperature:
+      name: "Bedroom Temperature"
+      accuracy_decimals: 1
+      unit_of_measurement: "°C"
+    humidity:
+      name: "Bedroom Humidity"
+      accuracy_decimals: 0
+      unit_of_measurement: "%"
+    update_interval: 15s
+
+# Manually set a reference CO₂ value for calibration
+number:
+  - platform: template
+    name: "CO₂ Calibration Reference"
+    id: co2_calibration_value
+    optimistic: true
+    min_value: 400
+    max_value: 2000
+    step: 1
+    initial_value: 400
+    unit_of_measurement: "ppm"
+    icon: "mdi:molecule-co2"
+
+# Buttons to trigger forced calibration or factory reset
+button:
+  - platform: template
+    name: "Calibrate CO₂ Sensor"
+    icon: "mdi:calibration"
+    on_press:
+      then:
+        - lambda: |-
+            id(scd41).perform_forced_calibration(id(co2_calibration_value).state);
+        - logger.log: 
+            format: "Forced calibration with reference %d ppm"
+            args: ["int(id(co2_calibration_value).state)"]
+
+  - platform: template
+    name: "CO₂ Sensor Factory Reset"
+    icon: "mdi:restore"
+    id: factory_reset_button
+    on_press:
+      then:
+        - scd4x.factory_reset: scd41
+        - logger.log: "SCD41 sensor factory reset initiated"
+
+# Optional: Switch for enabling/disabling auto calibration
+switch:
+  - platform: template
+    name: "CO₂ Auto Calibration"
+    id: co2_auto_calibration
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+    icon: "mdi:calibration"
+    on_turn_on:
+      - lambda: 'id(scd41).set_automatic_self_calibration(true);'
+      - logger.log: "Enabled automatic self-calibration"
+    on_turn_off:
+      - lambda: 'id(scd41).set_automatic_self_calibration(false);'
+      - logger.log: "Disabled automatic self-calibration"
 
 ```
+
+
+For **ESP32 Cameras** things are a bit more complicated and should be tuned to your preference:
+```yaml
+esphome:
+  name: "halaim-home-esp32-cam-entryway"
+  friendly_name: Home ESP32 Cam – Entryway
+
+esp32:
+  board: esp32dev  # Generic ESP32 Dev Board
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+  level: VERBOSE
+  tx_buffer_size: 256
+
+# Enable Home Assistant API + custom service for tuning camera settings on the fly
+api:
+  services:
+    - service: camera_set_param
+      variables:
+        name: string
+        value: int
+      then:
+        - lambda: |-
+            bool state_return = false;
+            if (("contrast" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_contrast(value); state_return = true; }
+            if (("brightness" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_brightness(value); state_return = true; }
+            if (("saturation" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_saturation(value); state_return = true; }
+            if (("special_effect" == name) && (value >= 0U) && (value <= 6U)) { id(espcam).set_special_effect((esphome::esp32_camera::ESP32SpecialEffect)value); state_return = true; }
+            if (("aec_mode" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_aec_mode((esphome::esp32_camera::ESP32GainControlMode)value); state_return = true; }
+            if (("aec2" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_aec2(value); state_return = true; }
+            if (("ae_level" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_ae_level(value); state_return = true; }
+            if (("aec_value" == name) && (value >= 0U) && (value <= 1200U)) { id(espcam).set_aec_value(value); state_return = true; }
+            if (("agc_mode" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_agc_mode((esphome::esp32_camera::ESP32GainControlMode)value); state_return = true; }
+            if (("agc_value" == name) && (value >= 0U) && (value <= 30U)) { id(espcam).set_agc_value(value); state_return = true; }
+            if (("agc_gain_ceiling" == name) && (value >= 0U) && (value <= 6U)) { id(espcam).set_agc_gain_ceiling((esphome::esp32_camera::ESP32AgcGainCeiling)value); state_return = true; }
+            if (("wb_mode" == name) && (value >= 0U) && (value <= 4U)) { id(espcam).set_wb_mode((esphome::esp32_camera::ESP32WhiteBalanceMode)value); state_return = true; }
+            if (("test_pattern" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_test_pattern(value); state_return = true; }
+
+            if (true == state_return) {
+              id(espcam).update_camera_parameters();
+            } else {
+              ESP_LOGW("esp32_camera_set_param", "Error in name or data range");
+            }
+
+# OTA updates
+ota:
+  - platform: esphome
+    password: "REPLACE_WITH_PASSWORD"
+
+# Network settings (static IP recommended for stability)
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  power_save_mode: none
+  domain: .your-domain.local
+  manual_ip:
+    static_ip: 192.168.1.212
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+    dns1: 192.168.1.1
+    dns2: 8.8.8.8
+  ap:
+    ssid: "ESP32-CAM-Fallback"
+    password: "StrongFallbackPass"
+
+# Camera module configuration
+esp32_camera:
+  id: espcam
+  name: "Entryway Camera"
+  external_clock:
+    pin: GPIO0
+    frequency: 8MHz
+  i2c_pins:
+    sda: GPIO26
+    scl: GPIO27
+  data_pins: [GPIO5, GPIO18, GPIO19, GPIO21, GPIO36, GPIO39, GPIO34, GPIO35]
+  vsync_pin: GPIO25
+  href_pin: GPIO23
+  pixel_clock_pin: GPIO22
+  power_down_pin: GPIO32
+  resolution: 1024x768  # SVGA
+  jpeg_quality: 30       # 10–63 (lower is better quality)
+  max_framerate: 25.0fps
+  idle_framerate: 0.1fps
+  frame_buffer_count: 2
+  vertical_flip: false
+  horizontal_mirror: false
+  brightness: 2
+  contrast: 1
+  special_effect: none
+  aec_mode: auto
+  aec2: false
+  ae_level: 0
+  aec_value: 300
+  agc_mode: auto
+  agc_gain_ceiling: 4x
+  agc_value: 0
+  wb_mode: auto
+
+# Lights (onboard white LED & red indicator)
+output:
+  - platform: ledc
+    channel: 2
+    pin: GPIO4
+    id: espCamLED
+  - platform: gpio
+    pin:
+      number: GPIO33
+      inverted: True
+    id: gpio_33
+
+light:
+  - platform: monochromatic
+    output: espCamLED
+    name: Entryway Cam Spotlight
+  - platform: binary
+    output: gpio_33
+    name: Entryway Cam Status LED
+
+# Restart switch + availability sensor
+switch:
+  - platform: restart
+    name: Entryway Cam Restart
+
+binary_sensor:
+  - platform: status
+    name: Entryway Cam Online
+
+# Optional fallback access point
+captive_portal:
+
+# Built-in Web Server (stream & snapshot)
+esp32_camera_web_server:
+  - port: 8080
+    mode: stream
+  - port: 8081
+    mode: snapshot
+```
+Key Parameters to Tune:
+jpeg_quality
+Lower = better image quality (but larger payload).
+Try: jpeg_quality: 10 for snapshots, 30 for balanced stream.
+
+resolution
+Best real-world stability is around 1024x768. Going higher (e.g. UXGA) increases risk of ESP32 crashes unless you’re tuning buffers or using PSRAM-heavy variants.
+
+max_framerate
+The ESP32 struggles above ~25fps. For low-light/stable monitoring, reduce this to 10.0 to decrease load.
+
+aec_value, ae_level
+Manually tweak auto-exposure to prevent blown-out images or improve indoor low-light performance.
+
+agc_gain_ceiling
+Controls max gain in darker scenes — raising it can improve night performance at the cost of noise.
+
+brightness / contrast / saturation
+Adjust these per-scene with the exposed camera_set_param service for dynamic tuning from Home Assistant.
+
+Other Advice:
+Enable vertical/horizontal flip if image is mounted upside-down or mirrored.
+
+Use esp32_camera_web_server for a fast local preview without involving HA.
+
+If images stutter or crash, lower resolution and/or framerate. Ensure static IP is used.
+
+
 ---
+
+For network configuration I strongly reccomend using Static IPv4s, Static DHCP entries(bind device MAC to local IP). If you want a reliable, stress-proof system which will come back from power outages, networking issues/router faults - set as much manually as you can/consider healthy =) For me, with 100+ IoT devices of different sorts/brands/price ranges I had to learn it the hard way. For example I am happily using separate DHCP Server running as [HA Add-on](https://github.com/f18m/ha-addon-dnsmasq-dhcp/tree/main) instead of shitty trimmed-down version found on a lot of consumer=level network equipment - my tp-link as a good example of such case. But maybe you have a great network with Mikrotiks/Ubiquty/PFsense/etc. devices and sys-admin level skills, so you do you.
+
+
+---
+
+
 
 ## 6. Calibration
 - Compared readings with digital thermometers and hygrometers
