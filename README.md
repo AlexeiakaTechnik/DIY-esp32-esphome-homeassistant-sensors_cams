@@ -103,8 +103,7 @@ Esp32 Camera:
 Prusa Slicer:
 ![image](https://github.com/user-attachments/assets/6a69a610-47d4-4cbe-8d86-31197c2108db)
 
-- **Assembly, first run and conclusions:
-**
+- **Assembly, first run and conclusions:**
 
 After soldiering wires, physical assembly, esphome configuration upload and a few tests I quickly realized the grave mistake of heat dispersion problem for sensors. Esp32 Cam was basically ok, but come summer - I was sure it would overheat and start to freeze/glitch.
 
