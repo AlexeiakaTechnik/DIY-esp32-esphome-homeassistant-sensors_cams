@@ -50,6 +50,7 @@ I have to be honest, firt thing that really picked my inerest while resarching e
 ## 3. 3D Design in Autodesk Inventor
 I decided to approach this thoroughly and arranged a short r&d design and engineering course from my friend, who is seasoned mechanical engineer. Basically to learn begginer things in Autodesk Inventor, how 3d printing works, how to prototype and iterate. Really - you can do all of that online, there are great articles/youtube channels on how to do basic stuff in Inventor, and you can always find someone nearby who will print you your details for a modest price if you provide them with .STEP files from Inventor.
 
+## 3.1. First Iteration
 - **Version 1:**
 Initial version of devices were super simple and as you can see on pictures below(I did not see at the moment somehow) they had glaring.. heat dispersion issues. That small grill in front could do little to prevent heat transfer from esp32 chip and onboard LEDs to actual DHT22/SCD41 sensors. I had to learn it the hard way so maybe you dont have to. 
 *esp32 Cameras on the other hand were designed kind of ok, but still they were getting too warm and added some more ventilaion in v2.
@@ -110,8 +111,18 @@ After soldiering wires, physical assembly, esphome configuration upload and a fe
 ![image](https://github.com/user-attachments/assets/2ce4a40c-bdec-4fdf-9068-fe31039e465b)
 ![image](https://github.com/user-attachments/assets/f82488f1-c9da-41de-94a6-17d192137aab)
 
+## 3.2. Seond Iteration
+- **Version 2 - Learning from mistakes:** 
+I got back to Inventor and redesigned casing with better airflow, mounting slots, compact layout. And added some design elements - Home Assistant logo as a vent! 
 
-- **Version 2:** Redesigned casing with better airflow, mounting slots, and compact layout
+*After coming up with "final" version of Esp32 Dev Board Casing(a few attempts) to save up on printing cost I have only redigned Lids for sensor devices, adding external holder for the sensors to distance them from the main board case and added additional lid to enclose the sensor itself. With ALL the extra ventilation grills 3D printer and size allowed for! =)
+
+*Esp32 Cam Casing and Lid only suffered through adding additional vents, some design beuty, and better grip for the board to be able to connect/disconnect micro USB securely.
+
+ТУТ БУДУТ ФОТО БЛЯЕАТЬЬЬЬ СУКААААААА
+
+
+
 - 3D STL files available in repo
 
 
