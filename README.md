@@ -1,4 +1,4 @@
-![All Sensors - Work desk 1](https://github.com/user-attachments/assets/20b9d884-7a70-4021-b0d6-369e8aa852c8)
+![Inventor - esp32 dev board](https://github.com/user-attachments/assets/a35e9333-85a2-4426-b195-10851183a600)![All Sensors - Work desk 1](https://github.com/user-attachments/assets/20b9d884-7a70-4021-b0d6-369e8aa852c8)
 # Engineering DIY ESP32 Sensors & Cameras for Home Assistant
 Article about my DIY Project to engineer and use esp32 based Temperature, Humidity, CO2 sensors and Cameras with esphome for Home Assistant. Design(Autocad Inventor), 3d printing, wiring, design flaws and itertions, configuration, calibration description. Thoughts and conclusions on DIY IOT(Internet of Things) devices and how they differ in hands-on experience(and final price) from commercial products.
 
@@ -50,12 +50,34 @@ I have to be honest, firt thing that really picked my inerest while resarching e
 ## 3. 3D Design in Autodesk Inventor
 I decided to approach this thoroughly and arranged a short r&d design and engineering course from my friend, who is seasoned mechanical engineer. Basically to learn begginer things in Autodesk Inventor, how 3d printing works, how to prototype and iterate. Really - you can do all of that online, there are great articles/youtube channels on how to do basic stuff in Inventor, and you can always find someone nearby who will print you your details for a modest price if you provide them with .STEP files from Inventor.
 
-- **Version 1:** Initial print failed due to poor ventilation → photos + lessons learned
+- **Version 1:**
+Initial version of devices were super simple and as you can see on pictures below(I did not see at the moment somehow) they had glaring.. heat dispersion issues. That small grill in front could do little to prevent heat transfer from esp32 chip and onboard LEDs to actual DHT22/SCD41 sensors. I had to learn it the hard way so maybe you dont have to. 
+*esp32 Cameras on the other hand were designed kind of ok, but still they were getting too warm and added some more ventilaion in v2.
+
+First I created the board, sensors and esp32 cams Inventor 3d models using caliper to take measurements:
+
+Esp32 S3 Dev board:
+![Inventor - esp32 dev board](https://github.com/user-attachments/assets/c4cf87f9-73df-47ff-bd0c-d35ac12d8e04)
+
+DHT22 Sensor:
+![Inventor - temp humid sensor WIP 3](https://github.com/user-attachments/assets/528a5734-43da-4d1c-a023-ee7ecd691933)
+
+SCD41 Sensor:
+![Inventor - csd41](https://github.com/user-attachments/assets/6edcbdb8-f27a-4e1c-923f-fcefdbc7e079)
+
+Esp32 Cam with Antenna and fastening washers:
+![Inventor - esp32 Cam](https://github.com/user-attachments/assets/112a970c-9815-410f-aa66-717a4cb78e13)
+
+This step in a necessary to do if you want to make sure evrything fits well together during the assembly in Inventor, when you will create cases for devices.
+![Inventor - esp32 Cam 2](https://github.com/user-attachments/assets/f59eefa5-be90-4ab8-958a-7f8699cde694)![Inventor - esp32 Cam 3](https://github.com/user-attachments/assets/bbf0a26f-ddb2-472e-85b1-7bc96fada4aa)
+
+
+
 - **Version 2:** Redesigned casing with better airflow, mounting slots, and compact layout
 - 3D STL files available in repo
 
 
----
+ou
 
 ## 4. Assembly & Wiring
 - Step-by-step wiring diagrams and photos
