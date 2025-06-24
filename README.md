@@ -36,6 +36,7 @@ I have to be honest, firt thing that really picked my inerest while resarching e
 
 ### Cameras:
 - ESP32-CAM modules with OV2640 [Link](https://aliexpress.ru/item/1005001621697965.html?spm=a2g2w.orderdetail.0.0.6de837d4VH0e7z&sku_id=12000024948767464&_ga=2.134440049.1283486305.1750753652-1749897236.1735401406)
+
 ![esp32 cam ali](https://github.com/user-attachments/assets/3583a012-cf5c-44e3-820a-b7b51197d02d)
 
 ### Power adapters:
