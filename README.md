@@ -120,7 +120,13 @@ I got back to Inventor and redesigned casing with better airflow, mounting slots
 
 *Esp32 Cam Casing and Lid only suffered through adding additional vents, some design beuty, and better grip for the board to be able to connect/disconnect micro USB securely.
 
-ТУТ БУДУТ ФОТО ИЗ ИНВЕНТОРА БЛЯЕАТЬЬЬЬ СУКААААААА
+Temperature and Humidity(DHT22) and CO2/Temp/Humid(SCD41) V2:
+![Inventor - co2 and temp-humid sensors assembly v2](https://github.com/user-attachments/assets/17a39c16-7732-4af3-9bf4-814a9f7e4f12)
+
+
+Esp32 Camera V2:
+![Inventor - esp32 cam assembly v2](https://github.com/user-attachments/assets/0de06a3f-8369-4b96-8a8b-ad7f86dc0ee6)
+
 
 The final print of additional parts:
 ![case print v2 1](https://github.com/user-attachments/assets/565f3b70-5583-4baf-8d94-9331cbb1952c)
