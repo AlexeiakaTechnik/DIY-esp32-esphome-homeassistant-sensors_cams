@@ -91,6 +91,7 @@ Temperature and Humidity(DHT22) and CO2/Temp/Humid(SCD41):
 ![Inventor - co2 and temp-humid sensors assembly v1](https://github.com/user-attachments/assets/7a121242-755c-4cfd-811f-2f90f7c8fe3f)
 
 Esp32 Camera:
+
 ![Inventor - esp32 cam assembly v1](https://github.com/user-attachments/assets/a07e27b5-f7dd-4b86-ab58-2eba2bfa0bcc)
 
 - **3D Prinitng was done on Creality Ender-3 printer, 3d printing instructions(G-Code) were compied in Prusa Slicer software:
@@ -101,6 +102,14 @@ Esp32 Camera:
 
 Prusa Slicer:
 ![image](https://github.com/user-attachments/assets/6a69a610-47d4-4cbe-8d86-31197c2108db)
+
+- **Assembly, first run and conclusions:
+**
+
+After soldiering wires, physical assembly, esphome configuration upload and a few tests I quickly realized the grave mistake of heat dispersion problem for sensors. Esp32 Cam was basically ok, but come summer - I was sure it would overheat and start to freeze/glitch.
+
+![image](https://github.com/user-attachments/assets/2ce4a40c-bdec-4fdf-9068-fe31039e465b)
+![image](https://github.com/user-attachments/assets/f82488f1-c9da-41de-94a6-17d192137aab)
 
 
 - **Version 2:** Redesigned casing with better airflow, mounting slots, and compact layout
