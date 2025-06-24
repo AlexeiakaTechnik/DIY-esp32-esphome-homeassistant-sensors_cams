@@ -54,8 +54,8 @@ I decided to approach this thoroughly and arranged a short r&d design and engine
 Initial version of devices were super simple and as you can see on pictures below(I did not see at the moment somehow) they had glaring.. heat dispersion issues. That small grill in front could do little to prevent heat transfer from esp32 chip and onboard LEDs to actual DHT22/SCD41 sensors. I had to learn it the hard way so maybe you dont have to. 
 *esp32 Cameras on the other hand were designed kind of ok, but still they were getting too warm and added some more ventilaion in v2.
 
-First I created the board, sensors and esp32 cams Inventor 3d models using caliper to take measurements:
-
+- **First I created the board, sensors and esp32 cams Inventor 3d models using caliper to take measurements:
+**
 Esp32 S3 Dev board:
 ![Inventor - esp32 dev board](https://github.com/user-attachments/assets/c4cf87f9-73df-47ff-bd0c-d35ac12d8e04)
 
@@ -68,9 +68,39 @@ SCD41 Sensor:
 Esp32 Cam with Antenna and fastening washers:
 ![Inventor - esp32 Cam](https://github.com/user-attachments/assets/112a970c-9815-410f-aa66-717a4cb78e13)
 
-This step in a necessary to do if you want to make sure evrything fits well together during the assembly in Inventor, when you will create cases for devices.
+This step in a necessary to do if you want to make sure evrything fits well together during the assembly in Inventor, when you will create cases for devices!
+
 ![Inventor - esp32 Cam 2](https://github.com/user-attachments/assets/f59eefa5-be90-4ab8-958a-7f8699cde694)![Inventor - esp32 Cam 3](https://github.com/user-attachments/assets/bbf0a26f-ddb2-472e-85b1-7bc96fada4aa)
 
+- **Secondly I have created the cases for the devices:
+**
+
+Case for Esp32 S3 Dev Board, for both Temperature and Humidity(DHT22) and CO2/Temp/Humid(SCD41) devices:
+![Inventor - case esp32 dev board v1](https://github.com/user-attachments/assets/c23f5c62-74f6-4f5c-a5f1-956ab9be8506)
+
+Lids for both sensor devices:
+![Inventor - lids for sensors v1](https://github.com/user-attachments/assets/8f4ac382-0bc1-4424-aa97-ef648e9903fb)
+
+Case for Esp32 Camera:
+![Inventor - case esp32 cam v1](https://github.com/user-attachments/assets/f7fc1eb0-0fcf-4c06-b1b2-61832f9feb74)
+
+- **Finally - Assebly of all devices in Inventor and saving to .STEP format for 3D Printing:
+**
+
+Temperature and Humidity(DHT22) and CO2/Temp/Humid(SCD41):
+![Inventor - co2 and temp-humid sensors assembly v1](https://github.com/user-attachments/assets/7a121242-755c-4cfd-811f-2f90f7c8fe3f)
+
+Esp32 Camera:
+![Inventor - esp32 cam assembly v1](https://github.com/user-attachments/assets/a07e27b5-f7dd-4b86-ab58-2eba2bfa0bcc)
+
+- **3D Prinitng was done on Creality Ender-3 printer, 3d printing instructions(G-Code) were compied in Prusa Slicer software:
+**
+
+3D Printer:
+![3d Printer 1](https://github.com/user-attachments/assets/c7aee7a1-e17e-4cc5-8f2a-027130a86b08)
+
+Prusa Slicer:
+![image](https://github.com/user-attachments/assets/6a69a610-47d4-4cbe-8d86-31197c2108db)
 
 
 - **Version 2:** Redesigned casing with better airflow, mounting slots, and compact layout
