@@ -106,12 +106,12 @@ Prusa Slicer:
 
 - **Assembly, first run and conclusions:**
 
-After soldiering wires, physical assembly, esphome configuration upload and a few tests I quickly realized the grave mistake of heat dispersion problem for sensors. Esp32 Cam was basically ok, but come summer - I was sure it would overheat and start to freeze/glitch.
+After soldiering wires, physical assembly, esphome configuration upload and a few tests I quickly realized the grave mistake of heat dispersion problem for sensors. Sensor temperature readings were about 5-8(!) degrees celcius above readings from lab thermometer I placed beside. Esp32 Cam was basically ok, but come summer - I was sure it would overheat and start to freeze/glitch.
 
 ![image](https://github.com/user-attachments/assets/2ce4a40c-bdec-4fdf-9068-fe31039e465b)
 ![image](https://github.com/user-attachments/assets/f82488f1-c9da-41de-94a6-17d192137aab)
 
-## 3.2. Seond Iteration
+## 3.2. Second Iteration
 - **Version 2 - Learning from mistakes:** 
 I got back to Inventor and redesigned casing with better airflow, mounting slots, compact layout. And added some design elements - Home Assistant logo as a vent! 
 
@@ -119,8 +119,19 @@ I got back to Inventor and redesigned casing with better airflow, mounting slots
 
 *Esp32 Cam Casing and Lid only suffered through adding additional vents, some design beuty, and better grip for the board to be able to connect/disconnect micro USB securely.
 
-ТУТ БУДУТ ФОТО БЛЯЕАТЬЬЬЬ СУКААААААА
+ТУТ БУДУТ ФОТО ИЗ ИНВЕНТОРА БЛЯЕАТЬЬЬЬ СУКААААААА
 
+The final print of additional parts:
+![case print v2 1](https://github.com/user-attachments/assets/565f3b70-5583-4baf-8d94-9331cbb1952c)
+
+
+To add flawor and practicality to the design I have ordered some simple stickers to be printed - to identify devices(Device purpose, Room name, Local IP address and esp32 wi-fi module MAC address). On the photo below you can see the whole parade of devices before I replaced casings/lids and redid wiring(now sensors were further apart from esp32 board). 
+
+Devices v1 to v2 reassembly:
+![All Sensors - Work desk - before reassembly v1 to v2](https://github.com/user-attachments/assets/96234ae3-fa14-44ff-a5f0-e1b80008c5b5)
+
+The "final", albeit final for this article, design of Sensors and Cameras:
+![All Sensors - Work desk - final v2 assembled](https://github.com/user-attachments/assets/c6dd6aac-e4ce-4845-bf59-cd2384670b6e)
 
 
 - 3D STL files available in repo
