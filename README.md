@@ -1,6 +1,6 @@
 ![All Sensors - Work desk 1](https://github.com/user-attachments/assets/a0f44efd-c6e8-4914-a172-ff47eea20a60)
 # Engineering DIY ESP32 Sensors & Cameras for Home Assistant
-Article about my DIY Project to engineer and use esp32 based Temperature, Humidity, CO2 sensors and Cameras with esphome for Home Assistant. Design(Autocad Inventor), 3d printing, wiring, design flaws and itertions, configuration, calibration description. Thoughts and conclusions on DIY IOT(Internet of Things) devices and how they differ in hands-on experience(and final price) from commercial products.
+Article about my DIY Project to engineer and use esp32 based Temperature, Humidity, CO2 sensors and Cameras with esphome for Home Assistant. Design(Autodesk Inventor), 3d printing, wiring, design flaws and itertions, configuration, calibration description. Thoughts and conclusions on DIY IOT(Internet of Things) devices and how they differ in hands-on experience(and final price) from commercial products.
 
 
 
@@ -53,7 +53,8 @@ I decided to approach this thoroughly and arranged a short r&d design and engine
 ## 3.1. First Iteration
 - **Version 1:**
 Initial version of devices were super simple and as you can see on pictures below(I did not see at the moment somehow) they had glaring.. heat dispersion issues. That small grill in front could do little to prevent heat transfer from esp32 chip and onboard LEDs to actual DHT22/SCD41 sensors. I had to learn it the hard way so maybe you dont have to. 
-*esp32 Cameras on the other hand were designed kind of ok, but still they were getting too warm and added some more ventilaion in v2.
+
+*esp32 Cameras on the other hand were designed kind of ok, there isn't much to it, but still they were getting too warm.
 
 - **First I created the board, sensors and esp32 cams Inventor 3d models using caliper to take measurements:
 **
@@ -136,17 +137,12 @@ The "final", albeit final for this article, design of Sensors and Cameras:
 - **Version 2 - Results:**
 The heating dispersion problem got much better. From +5-8 degrees I got to +2-3 for temperature readings. It's still critical for including such sensors in climate automations but now its something which actually can be calibrated - we will get to in **chapter 6**. The design additions were a surprising delight, considering that now esp32 dev board built-in RGB LEDs can be used to do some visual aid as explained in **chapter 7**. Of course the design of such devices can be improved million times over but for the purpose of this article I decided to stop and actually try using them in real Smart Home conditions. As the professional engineer buddy of mine(who helped with making sense of Inventor and how to r&d 101) explained: 
 
+
 _"There is no perfect design for an engineer, do not get lost in drawing and re-drawing lots of blueprints, trying to **think of every detail and aspect in theory**. Try out your designes, fail miserably, get back to board, try againm, fail less... Only then **you will actually make progress**. Through prototyping and iterations."_
 
 
-
-
-- 3D STL files available in repo
-
-
-ou
-
 ## 4. Assembly, Wiring and Hardware specifics
+
 - Step-by-step wiring diagrams and photos
 - Power: USB-C or screw terminal
 - ESPHome YAML includes pin mappings and sensor config
