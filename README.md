@@ -1,4 +1,4 @@
-![Inventor - esp32 dev board](https://github.com/user-attachments/assets/a35e9333-85a2-4426-b195-10851183a600)![All Sensors - Work desk 1](https://github.com/user-attachments/assets/20b9d884-7a70-4021-b0d6-369e8aa852c8)
+
 # Engineering DIY ESP32 Sensors & Cameras for Home Assistant
 Article about my DIY Project to engineer and use esp32 based Temperature, Humidity, CO2 sensors and Cameras with esphome for Home Assistant. Design(Autocad Inventor), 3d printing, wiring, design flaws and itertions, configuration, calibration description. Thoughts and conclusions on DIY IOT(Internet of Things) devices and how they differ in hands-on experience(and final price) from commercial products.
 
