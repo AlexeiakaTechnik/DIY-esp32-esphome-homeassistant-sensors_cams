@@ -133,13 +133,18 @@ Devices v1 to v2 reassembly:
 The "final", albeit final for this article, design of Sensors and Cameras:
 ![All Sensors - Work desk - final v2 assembled](https://github.com/user-attachments/assets/c6dd6aac-e4ce-4845-bf59-cd2384670b6e)
 
+- **Version 2 - Results:**
+The heating dispersion problem got much better. From +5-8 degrees I got to +2-3 for temperature readings. It's still critical for including such sensors in climate automations but now its something which we can be calibrated - which we will get to in **chapter 6**. The design additions were a surprising delight, considering that now esp32 dev board built-in RGB LEDs can be used to do some visual aid as explained in **chapter 7**. Of course the design of such devices can be improved million times but for the purpose of this iteration I decided to stop and actually try using them in real Smart Home conditions. As the professional engineer buddy of mine(who helped with making sense of Inventor and how to r&d 101) explained: _"There is no perfect design for an engineer, do not get lost in drawing and re-drawing lots of blueprints, trying to **think of every detail and aspect in theory**. Try out your designes, fail miserably, get back to board, try again - only then **you will actually make progress**. Prototyping, iterations."_
+
+
+
 
 - 3D STL files available in repo
 
 
 ou
 
-## 4. Assembly & Wiring
+## 4. Assembly, Wiring and Hardware specifics
 - Step-by-step wiring diagrams and photos
 - Power: USB-C or screw terminal
 - ESPHome YAML includes pin mappings and sensor config
