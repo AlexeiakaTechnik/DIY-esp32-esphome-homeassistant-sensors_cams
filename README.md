@@ -8,7 +8,7 @@ Article about my DIY Project to engineer and use ESP32 based Temperature, Humidi
 ## 📖 Table of Contents
 
 1. [💡 Motivation & Goals](#1-motivation--goals)  
-2. [🔩 Hardware](#2-hardware)  
+2. [🔩 Hardware](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#2--hardware)  
 3. [📐 3D Design in Autodesk Inventor](#3-3d-design-in-autodesk-inventor)  
    - [🔁 First Iteration](#31-first-iteration)  
    - [🔁 Second Iteration](#32-second-iteration)  
