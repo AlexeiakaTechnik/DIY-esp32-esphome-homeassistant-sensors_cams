@@ -15,11 +15,10 @@ Article about my DIY Project to engineer and use ESP32 based Temperature, Humidi
 4. [🔧 Assembly, Wiring and Hardware Specifics](#4-assembly-wiring-and-hardware-specifics)  
 5. [📜 YAML Configuration (ESPHome)](#5-yaml-configuration-esphome)  
 6. [⚖️ Calibration](#6-calibration)  
-7. [🏠 Integration with Home Assistant](#7-integration-with-home-assistant)  
-8. [🖥️ UI & Dashboards](#8-ui--dashboards)  
-9. [🌈 Bonus – Visual CO₂ Indicator with RGB LED](#9-bonus--visual-co2-indicator-with-rgb-led)  
-10. [💬 Final Thoughts](#10-final-thoughts)  
-11. [📚 Related Articles](#11-related-articles)
+7. [🏠 Integration with Home Assistant / 🖥️ UI & Dashboards](#7-integration-with-home-assistant)  
+8. [🌈 Bonus – Visual CO₂ Indicator with RGB LED](#9-bonus--visual-co2-indicator-with-rgb-led)  
+9. [💬 Final Thoughts](#10-final-thoughts)  
+10. [📚 Related Articles](#11-related-articles)
 
 ---
 This article documents the full journey of building DIY ESP32-based smart sensors and cameras for use with Home Assistant (HA). It combines 3D design, prototyping, wiring, firmware configuration, calibration, and final integration into a robust local-first smart home system. 
@@ -724,21 +723,215 @@ Calibration is always an iterative process. While this current formula may still
 
 ---
 
-## 7. 🏠 Integration with Home Assistant
-- Integrated via ESPHome native API
-- Entity names standardized for clarity (e.g., `sensor.living_room_co2`)
-- Used in:
-  - Dashboard badges & cards
-  - Alarm triggers
-  - Automation for ventilation/humidification
+## 7. 🏠 Integration with Home Assistant / 🖥️ UI & Dashboards
+This device integrates seamlessly with Home Assistant using the native ESPHome API, allowing real-time sensor data and LED control to be fully accessible within the ecosystem.
+All entities were named using a consistent naming convention (e.g., sensor.bedroom_co2, sensor.bedroom_temperature, light.bedroom_rgb_led) to ensure clarity and maintainability across dashboards and automations.
+*To debug devices/configurations and trace problems I strongly reccomend using ESPHome Builder Addon Wireless Logger intrument. Also it's very convinient to update device configs/ESPHome framework versions Over The Air(OTA).
 
----
+Data from sensors/camera streams are used in:
+  - Dashboard badges & cards - for glance monitoring
+  - Alarm triggers - for example CO2 warning from nearest Media Player entity via TTS, in case there is simply not enogh fresh air in the room
+  - Automation for ventilation/humidification - based on CO2 and Humidity levels, of course
 
-## 8. 🖥️ UI & Dashboards
-- Designed dashboards for **tablets** and **mobile phones** (portrait + landscape)
-- Devices added to room views, gauge cards, graphs
-- Bonus: CO₂ LED alert on sensor body for quick glance
-- Linked dashboard repo: [Home Assistant Dashboards](https://github.com/AlexeiakaTechnik/Practial-and-stylish-Home-Assistant-Dashboards-for-Tablets-and-Mobile-Phones)
+Additionally my future plan is to place in a single room:
+   - Air Conditioner for heating/cooling (to be installed)
+   - Air Humidifier(already have one)
+   - Air recuperator to control circulation and income of fresh air(already there)
+   - Door/Window opening detectors(already there) to keep the door/window shut and the micro-climate in a room under strict control
+   - A few additional CO2/Temp/Humid sensors, maybe both DIY and factory-made, around the room
+
+Then I want to test out full Climate Automation concept with variable control, auto-correction, complicated readigs gathering and assesment, TTS announcements/warnings. No human input, full-on 24/7 system, exept for refilling Humidifier with water ofc. Just to see how viable it is using such improvised and customized Smart Home ecosystem and some clever code. I think it might be really cool material for another article.
+
+As for dahboard design, I am using a number of Home Assistant Dashboard extensions/integrations to greatly expand capabilities of HA front-end design. Most are from [HACS(HA Community Store)](https://www.hacs.xyz/). Here is the list:
+* list *
+
+If you want to learn in greater detail how to design such Dashboards check out my linked dashboard repo/article: [Home Assistant Dashboards](https://github.com/AlexeiakaTechnik/Practial-and-stylish-Home-Assistant-Dashboards-for-Tablets-and-Mobile-Phones) and definately check out documentation of all those beutifull add-ons/integrations. Some very gifted and committed front-end developers publish their work for free in Home Assistant community, the only challenge being to combine it into Dashboards you like.
+
+Here are my examples with screenshots and  commented YAML:
+- **Temperature / Humidity / CO2 Cards:**
+
+* screenshots *
+
+
+```yaml
+type: custom:stack-in-card
+title: null
+card_mod:
+  style: |
+    ha-card {
+      background-image: url('/api/image/serve/3c26edc7f227aba7c0ba04a247e98053/512x512');
+      border-style: solid;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: rgba(0, 0, 0, 0.6); /* Background color with opacity */
+      background-blend-mode: overlay; /* This blends the image with the color */
+      border-width: 3px;
+      border-radius: 5px;
+      --ha-card-header-color: orange;
+      --ha-card-header-font-size: 30px;
+      min-height: 350px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+mode: vertical
+cards:
+  - type: heading
+    icon: mdi:home-thermometer
+    heading: Bedroom Old
+    heading_style: title
+    badges:
+      - type: entity
+        show_state: true
+        show_icon: true
+        color: accent
+        state_content: last_changed
+        entity: sensor.iot_esp32_bedroomold_co2th_bedroomold_temperature_calibrated
+    card_mod:
+      style: |
+        ha-card { 
+          align-items: center;
+        }
+        .title > p {
+          color: orange;
+          font-size: 18px;
+          white-space: break-spaces !important;
+        }
+        .title ha-icon {
+          --icon-primary-color: orange;
+          --mdc-icon-size: 18px;
+          animation: rotating 2s linear infinite;
+        }
+  - graph: line
+    type: sensor
+    entity: sensor.iot_esp32_bedroomold_co2th_bedroomold_temperature_calibrated
+    detail: 2
+    name: Temperature
+    hours_to_show: 3
+  - graph: line
+    type: sensor
+    entity: sensor.iot_esp32_bedroomold_co2th_bedroomold_humidity
+    detail: 2
+    hours_to_show: 3
+    name: Humidity
+  - graph: line
+    type: sensor
+    entity: sensor.iot_esp32_bedroomold_co2th_co2_bedroomold
+    detail: 2
+    hours_to_show: 3
+    name: CO2
+columns: 1
+view_layout:
+  grid-area: d1
+
+```
+
+- **ESP32 Camera Cards:**
+
+* screenshots *
+
+```yaml
+type: custom:stack-in-card
+title: Entryway L1
+card_mod:
+  style: |
+    ha-card {
+      border-style: solid;
+      border-width: 3px;
+      border-radius: 5px;
+      --ha-card-header-color: orange;
+      --ha-card-header-font-size: 30px;
+    }
+mode: vertical
+cards:
+  - camera_view: live
+    type: picture-glance
+    entities:
+      - entity: light.1st_level_entryway_light_switch_switch_2
+      - entity: light.courtyard_door_light_switch_switch_1
+      - entity: light.1st_level_entryway_light_switch_switch_1
+      - entity: lock.1st_level_front_door_entryway_courtyard
+      - entity: lock.1st_level_door_gate_relay_switch_1
+      - entity: switch.1st_level_entryway_localtuya_charcoal_stove_switch_1
+    camera_image: camera.halaim_home_esp32_cam_entryway_esp_cam
+    entity: automation.main_hall_tv_turn_on_off_automation
+    hold_action:
+      action: navigate
+      navigation_path: >-
+        https://halaimhome-ha.uk/api/hassio_ingress/lDN2hO7zfaalXp0vL3GMU59dbfBEydRuGgXzpLUynBI/stream.html?src=Esp32_Cam_Entryway_L1&mode=mjpeg
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          title: Enryway L1
+          timeout: 600000
+          content:
+            type: picture-elements
+            camera_image: camera.halaim_home_esp32_cam_entryway_esp_cam
+            camera_view: live
+            elements:
+              - type: state-icon
+                icon: mdi:ceiling-light
+                style:
+                  top: 5%
+                  right: 80%
+                  transform: scale(1.2, 1.2)
+                tap_action:
+                  action: toggle
+                entity: light.1st_level_entryway_light_switch_switch_2
+              - type: state-icon
+                icon: mdi:spotlight
+                style:
+                  top: 5%
+                  right: 70%
+                  transform: scale(1.2, 1.2)
+                tap_action:
+                  action: toggle
+                entity: light.courtyard_door_light_switch_switch_1
+              - type: state-icon
+                icon: mdi:post-lamp
+                style:
+                  top: 5%
+                  right: 60%
+                  transform: scale(1.2, 1.2)
+                tap_action:
+                  action: toggle
+                entity: light.1st_level_entryway_light_switch_switch_1
+              - type: state-icon
+                icon: mdi:lock
+                style:
+                  top: 5%
+                  right: 50%
+                  transform: scale(1.2, 1.2)
+                tap_action:
+                  action: toggle
+                entity: lock.1st_level_front_door_entryway_courtyard
+              - type: state-icon
+                icon: mdi:lock
+                style:
+                  top: 5%
+                  right: 40%
+                  transform: scale(1.2, 1.2)
+                tap_action:
+                  action: toggle
+                entity: lock.1st_level_door_gate_relay_switch_1
+              - type: state-icon
+                icon: mdi:gas-burner
+                style:
+                  top: 5%
+                  right: 30%
+                  transform: scale(1.2, 1.2)
+                tap_action:
+                  action: toggle
+                entity: switch.1st_level_entryway_localtuya_charcoal_stove_switch_1
+columns: 1
+view_layout:
+  grid-area: d2
+
+```
 
 ---
 
