@@ -820,7 +820,7 @@ interval:
     then:
       - script.execute: flash_led
 ```
-And here is a video of it looks like:
+And here is a video of what how it works/looks:
 
 [![Visual LED CO2 Level Indication](https://img.youtube.com/vi/ZwWRNItUULs/0.jpg)](https://www.youtube.com/watch?v=ZwWRNItUULs)
 
