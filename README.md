@@ -580,7 +580,8 @@ When building DIY sensors, raw data from hardware sensors often requires calibra
 # SCD41 sensor – measures CO₂, temperature, humidity
 sensor:
 ```
-To take measurements it's best to use good old thermometers for temperature, hygrometers for humidity. CO2 measurements without a sensor are extremely challenging and generally not feasible for accurate results - so compare against better sensor if possible \_0_/. For this article I have useb good old lab mercury thermometer:
+To take measurements it's best to use thermometers for temperature, hygrometers for humidity. CO2 measurements without a sensor are extremely challenging and generally not feasible for accurate results - so compare against a better sensor if possible **\_0_/**. For this article I have useb good old lab mercury thermometer:
+
 ![Temp Sensor v2 Calibration Measurement 2](https://github.com/user-attachments/assets/da605666-da87-4097-bf1e-851bc1152dc9)
 
 
@@ -694,7 +695,7 @@ sensor:
 - **After Calibration:** Reduced to ~+0.6 to +1.2°C error
 - **How to improve:** Possibly refine further using [polynomial regression](https://en.wikipedia.org/wiki/Polynomial_regression) or add ambient board temperature sensor directly to the chip. But this is overcomplicating things really. 
 
-Calibration is always an iterative process. While this current formula may still be adjusted in the future, it already yields realistically usable values in Home Assistant dashboards and automations. At the end of the day, climate or air quality automations are about _subjective comfort_ — measured against available data and, more importantly,** how that data changes over time**. Perfect precision is great, but practical consistency is what actually makes a smart home feel smart.
+Calibration is always an iterative process. While this current formula may still be adjusted in the future, it already yields realistically usable values in Home Assistant dashboards and automations. At the end of the day, climate or air quality automations are about _subjective comfort_ — measured against available data and, more importantly, **how that data changes over time**. Perfect precision is great, but practical consistency is what actually makes a smart home feel smart.
 
 
 ---
@@ -796,6 +797,7 @@ interval:
       - script.execute: flash_led
 ```
 And here is a video of it looks like:
+
 [![Visual LED CO2 Level Indication](https://img.youtube.com/vi/ZwWRNItUULs/0.jpg)](https://www.youtube.com/watch?v=ZwWRNItUULs)
 
 
