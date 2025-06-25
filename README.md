@@ -5,13 +5,32 @@ Article about my DIY Project to engineer and use esp32 based Temperature, Humidi
 
 
 ## Overview
+## 📖 Table of Contents
+
+1. [💡 Motivation & Goals](#1-motivation--goals)  
+2. [🔩 Hardware](#2-hardware)  
+3. [📐 3D Design in Autodesk Inventor](#3-3d-design-in-autodesk-inventor)  
+   - [🔁 First Iteration](#31-first-iteration)  
+   - [🔁 Second Iteration](#32-second-iteration)  
+4. [🔧 Assembly, Wiring and Hardware Specifics](#4-assembly-wiring-and-hardware-specifics)  
+5. [📜 YAML Configuration (ESPHome)](#5-yaml-configuration-and-esphome)  
+6. [⚖️ Calibration](#6-calibration)  
+7. [🏠 Integration with Home Assistant](#7-integration-with-home-assistant)  
+8. [🖥️ UI & Dashboards](#8-ui--dashboards)  
+9. [🧰 Final Build & Use](#9-final-build--use)  
+10. [📷 Bonus – ESP32 Cameras](#10-bonus--esp32-cameras)  
+11. [🖼️ Media Gallery](#media-gallery)  
+12. [📚 Related Articles](#related-articles)  
+13. [💬 Final Thoughts](#final-thoughts)  
+
+---
 This article documents the full journey of building DIY ESP32-based smart sensors and cameras for use with Home Assistant (HA). It combines 3D design, prototyping, wiring, firmware configuration, calibration, and final integration into a robust local-first smart home system. 
 
 This project showcases a deep-dive into technical implementation, creativity, and troubleshooting, using affordable parts to create real, useful, and elegant devices — all documented with photos, videos, graphs, and YAML configs.
 
 ---
 
-## 1. Motivation & Goals
+## 1. 💡 Motivation & Goals
 I have to be honest, firt thing that really picked my inerest while resarching esp32 devices, esphome is very cheap-priced parts from Aliexpress. Why buy a [brand](https://aliexpress.ru/item/1005004716755040.html?sku_id=12000030213503813&spm=a2g2w.productlist.search_results.0.290a1bb7HElnHT) [devices](https://aliexpress.ru/item/1005007201324957.html?sku_id=12000039786855672&spm=a2g2w.productlist.search_results.8.290a1bb7HElnHT) when you can seemingly easily do it yourself with [cheap](https://aliexpress.ru/item/1005005501298967.html?spm=a2g2w.orderdetail.0.0.4c7137d4TnwiZl&sku_id=12000039876819440&_ga=2.230843423.1283486305.1750753652-1749897236.1735401406) [available](https://aliexpress.ru/item/33037061522.html?spm=a2g2w.orderdetail.0.0.4c1937d4itn8ht&sku_id=12000032670222591&_ga=2.230843423.1283486305.1750753652-1749897236.1735401406) parts? Then I thought maybe it will be a good learning and practice experience. Then it got more compllicated and.. insightfull. Additionally - I considered that commercial devices are often overpriced, cloud-dependent, or offer limited flexibility. DIY devices, while more effort, offer ultimate control, better privacy, and an opportunity to truly learn the internals of smart home automation.
 
 **Project Goals:**
@@ -23,7 +42,7 @@ I have to be honest, firt thing that really picked my inerest while resarching e
 
 ---
 
-## 2. Hardware
+## 2. 🔩 Hardware
 ### Microcontroller:
 - ESP32-S3 WROOM-1 Dev Board (Wi-Fi + USB-C) [Link](https://aliexpress.ru/item/1005005501298967.html?spm=a2g2w.orderdetail.0.0.4c7137d4TnwiZl&sku_id=12000039876819440&_ga=2.230843423.1283486305.1750753652-1749897236.1735401406)
 ![esp32 s3 dev board ali](https://github.com/user-attachments/assets/af178479-dccb-434f-9971-bea8720ae2f3)
@@ -47,10 +66,10 @@ I have to be honest, firt thing that really picked my inerest while resarching e
 
 ---
 
-## 3. 3D Design in Autodesk Inventor
+## 3. 📐 3D Design in Autodesk Inventor
 I decided to approach this thoroughly and arranged a short r&d design and engineering course from my friend, who is seasoned mechanical engineer. Basically to learn begginer things in Autodesk Inventor, how 3d printing works, how to prototype and iterate. Really - you can do all of that online, there are great articles/youtube channels on how to do basic stuff in Inventor, and you can always find someone nearby who will print you your details for a modest price if you provide them with .STEP files from Inventor.
 
-## 3.1. First Iteration
+### 3.1. 🔁 First Iteration
 - **Version 1:**
 Initial version of devices were super simple and as you can see on pictures below(I did not see at the moment somehow) they had glaring.. heat dispersion issues. That small grill in front could do little to prevent heat transfer from esp32 chip and onboard LEDs to actual DHT22/SCD41 sensors. I had to learn it the hard way so maybe you dont have to. 
 
@@ -112,7 +131,7 @@ After soldiering wires, physical assembly, esphome configuration upload and a fe
 ![image](https://github.com/user-attachments/assets/2ce4a40c-bdec-4fdf-9068-fe31039e465b)
 ![image](https://github.com/user-attachments/assets/f82488f1-c9da-41de-94a6-17d192137aab)
 
-## 3.2. Second Iteration
+### 3.2. 🔁 Second Iteration
 - **Version 2 - Learning from mistakes:** 
 I got back to Inventor and redesigned casing with better airflow, mounting slots, compact layout. And added some design elements - Home Assistant logo as a vent! 
 
@@ -147,7 +166,7 @@ The heating dispersion problem got much better. From +5-8 degrees I got to +2-3 
 _"There is no perfect design for an engineer, do not get lost in drawing and re-drawing lots of blueprints, trying to **think of every detail and aspect in theory**. Try out your designes, fail miserably, get back to board, try againm, fail less... Only then **you will actually make progress**. Through prototyping and iterations."_
 
 
-## 4. Assembly, Wiring and Hardware specifics
+## 4. 🔧 Assembly, Wiring and Hardware Specifics
 - **Temperature and Humidity(DHT22) and CO2/Temp/Humid(SCD41) devices:** 
 The wiring is really simple for this project. For the **DHT22** sensor - it only has 3 pins: **plus(3.3V)** **ground(-3.3V)** and **Output(Out)**. So any (GRND) pin from esp32 board connects to sensors ground, any 3.3V pin from board to (+) and any numbered pin, which is not specifically stated for other purposes in this board's documentation can be connected to sensor's (Out). I have connected (Out) with **GPIO4**. 
 
@@ -179,7 +198,7 @@ To be fair, Esp32 Cams are successfully used as with Object detection/recognitio
 
 ---
 
-## 5. YAML Configuration (and ESPHome)
+## 5. 📜 YAML Configuration (ESPHome)
 
 ESPHome is a great place to start doing your DIY IOT(Internet Of Things) devices and finding custom approaches to unussual Smart Home challanges. As stated on their [web-site](https://esphome.io/):
 _"ESPHome is an open-source firmware framework that simplifies the process of creating custom firmware for popular WiFi-enabled microcontrollers"_ 
@@ -557,7 +576,7 @@ For network configuration I strongly reccomend using Static IPv4s, Static DHCP e
 
 
 
-## 6. Calibration
+## 6. ⚖️ Calibration
 - Compared readings with digital thermometers and hygrometers
 - Measured offsets over time, applied linear/non-linear correction
 - Used spreadsheet to graph real vs measured temperature → correction factor derived
@@ -572,7 +591,7 @@ sensor:
 
 ---
 
-## 7. Integration with Home Assistant
+## 7. 🏠 Integration with Home Assistant
 - Integrated via ESPHome native API
 - Entity names standardized for clarity (e.g., `sensor.living_room_co2`)
 - Used in:
@@ -582,7 +601,7 @@ sensor:
 
 ---
 
-## 8. UI & Dashboards
+## 8. 🖥️ UI & Dashboards
 - Designed dashboards for **tablets** and **mobile phones** (portrait + landscape)
 - Devices added to room views, gauge cards, graphs
 - Bonus: CO₂ LED alert on sensor body for quick glance
@@ -590,14 +609,14 @@ sensor:
 
 ---
 
-## 9. Final Build & Use
+## 9. 🧰 Final Build & Use
 - Final assembled sensors labeled with stickers: name, IP, MAC, function
 - Mounted in various rooms with 3M backing or screws
 - Monitored daily via HA and graphs
 
 ---
 
-## 10. Bonus – ESP32 Cameras
+## 10. 📷 Bonus – ESP32 Cameras
 - ESP32-CAM modules set up with motion detection and streaming
 - RTSP stream integrated into HA Lovelace dashboard
 - Stored SD recordings (motion-based)
@@ -605,19 +624,19 @@ sensor:
 
 ---
 
-## Media Gallery
+## 11. 🖼️ Media Gallery
 ✅ Photos of all steps: CAD, printing, wiring, dashboards  
 ✅ Video of finished sensors & camera in use  
 📂 [Google Drive Media Folder](https://drive.google.com/drive/folders/your-real-link-here)
 
 ---
 
-## Related Articles
+## 12. 📚 Related Articles
 - [AJAX Alarm Integration](https://github.com/AlexeiakaTechnik/AJAX_security-integration-in-Home_Assistant)
 - [Light Automation UX](https://github.com/AlexeiakaTechnik/My-experience-of-improving-Light-Automations-in-Home-Assistant)
 - [HA UI/Dashboards](https://github.com/AlexeiakaTechnik/Practial-and-stylish-Home-Assistant-Dashboards-for-Tablets-and-Mobile-Phones)
 
 ---
 
-## Final Thoughts
+## 13. 💬 Final Thoughts
 This was an intense but rewarding project. I built something real, tangible, and useful for my smart home with the skills to replicate and expand it anytime. I hope it inspires others to build, improve, and learn. Reach out if you want to collaborate, or have questions!
