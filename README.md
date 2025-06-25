@@ -549,7 +549,7 @@ Lower = better image quality (but larger payload).
 Try: jpeg_quality: 10 for snapshots, 30 for balanced stream.
 
 ```text
-_resolution_
+resolution
 ```
 Best real-world stability is around 1024x768. Going higher (e.g. UXGA) increases risk of ESP32 crashes unless you’re tuning buffers or using PSRAM-heavy variants.
 
@@ -602,7 +602,7 @@ sensor:
 part of config.
 
 
-To take measurements it's best to use thermometers and hygrometers(for humidity). CO2 measurements without a sensor are extremely challenging and generally not feasible for accurate results - so compare against a better sensor if possible **\_0_/**. For this article I have used a good old lab mercury thermometer:
+To take measurements it's best to use thermometers and hygrometers(for humidity). CO2 measurements without a sensor are extremely challenging and generally not feasible for accurate results - so compare against a better sensor if possible. For this article I have used a good old lab mercury thermometer:
 
 ![Temp Sensor v2 Calibration Measurement 2](https://github.com/user-attachments/assets/da605666-da87-4097-bf1e-851bc1152dc9)
 
@@ -935,7 +935,7 @@ view_layout:
 
 ---
 
-## 9. 🌈 Bonus – Visual CO₂ Indicator with RGB LED
+## 8. 🌈 Bonus – Visual CO₂ Indicator with RGB LED
 
 To improve usability and glance-based monitoring, I used the onboard WS2812 RGB LED available on my ESP32-S3 boards to display a visual indicator of current CO₂ levels.
 
@@ -1031,27 +1031,30 @@ You can also tie the LED to motion, alarm states, or other values — just updat
 
 ---
 
-## 10. 💬 Final Thoughts
+## 9. 💬 Final Thoughts
 
 This was an intense, prolonged and sometimes frustrating project. But in measure of experience rewards it is priceless to me. I built something real, tangible, and useful for my smart home. Came away with the skills to replicate and expand it, with curiosity of more complicated solutions and with dread of what actual R&D engineers have to go through. Nah, just kidding, those guys and gals have an awesome job - tinker with stuff and get paid for it.
 
-Regarding DIY projects like this - well, it's a hobby. If you want to compete with commercial devices - you definately have to find a niche, maybe some open source project, promotion for specific crowd, like a lot of bloggers/youtubers/communities end up with their own designs/brands sold to fellow enthusiasts. But the mass market is powered by whole teams and departments who design IoT devices for a living ... 
+Regarding DIY projects like this - well, it's a hobby. If you want to compete with commercial devices - you definately have to find a niche, maybe some open source project, promotion for specific crowd, like a lot of bloggers/youtubers/communities end up with their own designs/brands sold to fellow enthusiasts. But the mass market is powered by whole teams and departments who design IoT devices for a living... 
 
 So let's **compare prices**, just the parts for DIY vs ready-available sensors. No labor, no hours put into learning/research, no fails, no faulty parts and no configuration/calibration hassle. 
 
 For me, Temperature & Humidity Detector was:
-ESP32 Board: $
-DHT22 Sensor: $
-Power supply/adapter: $
-Cable: $
-3D Printing parts for a single device: $
+
+- ESP32 Board: $4.35
+- DHT22 Sensor: $3.23
+- Power supply/adapter: $2.65
+- Cable: $1.5
+- 3D Printing parts for a single device: $5.9
+- **Total: $17.63**
 
 Commercial Detector I bought and use at home:
-Price(with delivery): $
 
-All the while, we presume that commercial detector has low error margin, is powered by a small CR2032 battery, is smaller, more stable and reliable, uses Zigbee wireless protocol instead of Wi-Fi(lower power consumption, less networking configuration), is configured to be power efficient(wake up, trace if there was a change, send readings, go to sleep by default). And it is slick, complete and polished.
+- **Price(delivery incl.): $10**
 
-But! The DIY ESP32 based platform can be transformed, expanded with additional hardware, additional sensors to additional pins, used for robots, lighting, BLE beacon tracking, physical automations - maybe several of those at the same time. It can be re-configured, updated, fully controlled. It does not require cloud, will not send any data anywhere you don't want it to. And it can be a great start to learn other things if you are into it.
+All the while, we presume that **commercial detector** has low error margin, is powered by a small CR2032 battery, is smaller, more stable and reliable, uses Zigbee wireless protocol instead of Wi-Fi(lower power consumption, less networking configuration), is configured to be power efficient(wake up, trace if there was a change, send readings, go to sleep by default). And it is slick, complete and polished.
+
+But! The **DIY ESP32 based platform** can be transformed, expanded with additional hardware, additional sensors to additional pins, used for robots, lighting, BLE beacon tracking, physical automations - maybe several of those at the same time. It can be re-configured, updated, fully controlled. It does not require cloud, will not send any data anywhere you don't want it to. And it can be a great start to learn other things if you are into it.
 
 So, my final verdict is: Be sure to ask the right question - What are **you** looking for?
 
@@ -1059,6 +1062,6 @@ And my hope is that this inspires other makers, engineers from other areas, tink
 
 ---
 
-## 11. 📚 Related Articles
+## 10. 📚 Related Articles
 - [HA UI/Dashboards](https://github.com/AlexeiakaTechnik/Practial-and-stylish-Home-Assistant-Dashboards-for-Tablets-and-Mobile-Phones)
 - [My Repositories/Articles](https://github.com/AlexeiakaTechnik/Alexei-Halaim-Smart-Home-Portfolio_Articles-list)
