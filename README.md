@@ -126,7 +126,7 @@ Prusa Slicer:
 
 - **Assembly, first run and conclusions:**
 
-After soldiering wires, physical assembly, esphome configuration upload and a few tests I quickly realized the grave mistake of heat dispersion problem for sensors. Sensor temperature readings were about 5-8(!) degrees celcius above readings from lab thermometer I placed beside. Esp32 Cam was basically ok, but come summer - I was sure it would overheat and start to freeze/glitch.
+After soldiering wires, physical assembly, esphome configuration upload and a few tests I quickly realized the grave mistake of heat dispersion problem for sensors. Sensor temperature readings were about 5-8°C(!) above readings from lab thermometer I placed beside. Esp32 Cam was basically ok, but come summer - I was sure it would overheat and start to freeze/glitch.
 
 ![image](https://github.com/user-attachments/assets/2ce4a40c-bdec-4fdf-9068-fe31039e465b)
 ![image](https://github.com/user-attachments/assets/f82488f1-c9da-41de-94a6-17d192137aab)
@@ -160,7 +160,7 @@ The "final", albeit final for this article, design of Sensors and Cameras:
 ![All Sensors - Work desk - final v2 assembled](https://github.com/user-attachments/assets/c6dd6aac-e4ce-4845-bf59-cd2384670b6e)
 
 - **Version 2 - Results:**
-The heating dispersion problem got much better. From +5-8 degrees I got to +2-3 for temperature readings. It's still critical for including such sensors in climate automations but now its something which actually can be calibrated - we will get to in **chapter 6**. The design additions were a surprising delight, considering that now esp32 dev board built-in RGB LEDs can be used to do some visual aid as explained in **chapter 7**. Of course the design of such devices can be improved million times over but for the purpose of this article I decided to stop and actually try using them in real Smart Home conditions. As the professional engineer buddy of mine(who helped with making sense of Inventor and how to r&d 101) explained: 
+The heating dispersion problem got much better. From +5-8°C degrees I got to +2.8-4.5°C for temperature readings. It's still critical for including such sensors in climate automations but now its something which actually can be calibrated - we will get to in **chapter 6**. The design additions were a surprising delight, considering that now esp32 dev board built-in RGB LEDs can be used to do some visual aid as explained in **chapter 7**. Of course the design of such devices can be improved million times over but for the purpose of this article I decided to stop and actually try using them in real Smart Home conditions. As the professional engineer buddy of mine(who helped with making sense of Inventor and how to r&d 101) explained: 
 
 
 _"There is no perfect design for an engineer, do not get lost in drawing and re-drawing lots of blueprints, trying to **think of every detail and aspect in theory**. Try out your designes, fail miserably, get back to board, try againm, fail less... Only then **you will actually make progress**. Through prototyping and iterations."_
@@ -577,17 +577,127 @@ For network configuration I strongly reccomend using Static IPv4s, Static DHCP e
 
 
 ## 6. ⚖️ Calibration
-- Compared readings with digital thermometers and hygrometers
-- Measured offsets over time, applied linear/non-linear correction
-- Used spreadsheet to graph real vs measured temperature → correction factor derived
+When building DIY sensors, raw data from hardware sensors often requires calibration to become reliable. Sensor readings may drift due to component tolerances, heat, or design flaws (such as proximity to heat sources). Calibrating ensures the temperature (and other values) shown in Home Assistant reflect real-world conditions AND can be used in more complex Climate Automations. For ESPHome configurations we can add any offsets here, as an additional sensor platform:
+```yaml
+# SCD41 sensor – measures CO₂, temperature, humidity
+sensor:
+```
+To take measurements it's best to use good old thermometers for temperature, hygrometers for humidity. CO2 measurements without a sensor are extremely challenging and generally not feasible for accurate results - so compare against better sensor if possible \_0_/. For this article I have useb good old lab mercury thermometer:
+![Temp Sensor v2 Calibration Measurement 2](https://github.com/user-attachments/assets/da605666-da87-4097-bf1e-851bc1152dc9)
+
+
+---
+
+### 🔧 Common Calibration Methods
+
+1. **Offset Correction (Linear)**
+   - Add or subtract a fixed value to all readings.
+   - Good when error is consistent across the range.
+   - Example formula:
+     ```text
+     Calibrated = Raw - Offset
+     ```
+   - Example YAML:
+     ```yaml
+     sensor:
+       - platform: template
+         name: "Corrected Temperature"
+         lambda: "return id(sensor_temp).state - 2.0;"
+     ```
+
+2. **Scaling Correction (Multiplicative)**
+   - Multiply all readings by a factor (e.g., 0.97).
+   - Useful when the sensor has linear but incorrect slope.
+   - Example formula:
+     ```text
+     Calibrated = Raw × ScaleFactor
+     ```
+   - Example YAML:
+     ```yaml
+     sensor:
+       - platform: template
+         name: "Corrected Temperature"
+         lambda: "return id(sensor_temp).state * 0.97;"
+     ```
+
+3. **Non-linear Correction (Custom Formula)**
+   - Use a formula to describe how error changes depending on the reading.
+   - Needed when error increases with temperature (in our example, due to heating from ESP32 chip/LEDs).
+   - Formula and YAML example below
+
+---
+
+### 📈 Why We Used a Non-Linear Formula
+
+Our sensors are mounted close to heat-emitting components (ESP32 chip, onboard LED), and even after updated casing there are still inconsistencies. Problem is - relation is **not linear** and causes _higher errors_ at _higher temperatures_.
+
+Simple offsets (e.g., -2°C) can fix low temps but undercorrect for higher ones. A custom linear-plus-slope formula can give better correlation:
+
+```text
+Calibrated = Raw + slope × (Raw - reference_temp) - base_error
+```
+Where:
+- `slope` adjusts correction rate as temp rises
+- `reference_temp` is our calibration anchor (e.g., room temp)
+- `base_error` is the estimated error at reference point
+
+---
+
+### 📊 Example Calibration Table
+
+| Time  | Real Temp (Thermometer) | Raw Sensor | Difference |
+|-------|--------------------------|------------|------------|
+| 10:00 | 24.3 °C                  | 28.6 °C    | +4.3 °C    |
+| 10:15 | 25.1 °C                  | 29.0 °C    | +3.9 °C    |
+| 10:30 | 25.7 °C                  | 29.3 °C    | +3.6 °C    |
+| 10:45 | 26.2 °C                  | 29.0 °C    | +2.8 °C    |
+| 11:00 | 26.5 °C                  | 29.5 °C    | +3.0 °C    |
+| 11:15 | 27.0 °C                  | 30.0 °C    | +3.0 °C    |
+| 11:30 | 27.3 °C                  | 30.5 °C    | +3.2 °C    |
+| 11:45 | 27.6 °C                  | 30.9 °C    | +3.3 °C    |
+| 12:00 | 28.0 °C                  | 31.3 °C    | +3.3 °C    |
+| 12:15 | 28.3 °C                  | 31.7 °C    | +3.4 °C    |
+
+> 🔍 Note: The more readings you input, the more data points are available for curve fitting, resulting in a more precise calibration. Think of it as this example illustrates:
+![calibration_precision_curve](https://github.com/user-attachments/assets/8e7c2ca5-2a68-4e35-8385-88897088ddee)
+
+
+---
+
+### 🧮 Final Calibration Formula (YAML)
+
+Based on the updated calibration table, we recalculate our formula with improved values:
+
+```text
+Calibrated = Raw + (-0.31 × (Raw - 24.0)) - 2.3
+```
+
+Updated YAML:
 
 ```yaml
 sensor:
   - platform: template
-    name: "Corrected Temperature"
+    name: "BedroomOld Temperature Calibrated"
+    unit_of_measurement: "°C"
+    accuracy_decimals: 1
     lambda: |-
-      return (x - 1.7);  # basic linear offset
+      float slope = -0.31;
+      float reference_temp = 24.0;
+      float base_error = 2.3;
+      return id(scd41_temperature).state + (slope * (id(scd41_temperature).state - reference_temp)) - base_error;
+    update_interval: 15s
 ```
+
+---
+
+### ✅ Results & Final Thoughts
+
+- **Before Calibration:** ~+5 to +8°C error due to heat buildup
+- **After Calibration:** Reduced to ~+0.6 to +1.2°C error
+- **How to improve:** Possibly refine further using [polynomial regression](https://en.wikipedia.org/wiki/Polynomial_regression) or add ambient board temperature sensor directly to the chip. But this is overcomplicating things really. 
+
+Calibration is always an iterative process. While this current formula may still be adjusted in the future, it already yields realistically usable values in Home Assistant dashboards and automations. At the end of the day, climate or air quality automations are about _subjective comfort_ — measured against available data and, more importantly,** how that data changes over time**. Perfect precision is great, but practical consistency is what actually makes a smart home feel smart.
+
 
 ---
 
