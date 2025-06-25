@@ -120,7 +120,7 @@ Prusa Slicer:
 
 - **Assembly, first run and conclusions:**
 
-After soldiering wires, physical assembly, ESPHome configuration upload and a few tests I quickly realized the grave mistake of not providing airflow for the sensors and placing them too close to heat sources. Sensor temperature readings were about 5-8°C(!) above readings from the lab thermometer I placed beside. ESP32 Cam was basically ok, but come summer - I was sure it would overheat and start to freeze/glitch.
+After soldering wires, physical assembly, ESPHome configuration upload and a few tests I quickly realized the grave mistake of not providing airflow for the sensors and placing them too close to heat sources. Sensor temperature readings were about 5-8°C(!) above readings from the lab thermometer I placed beside. ESP32 Cam was basically ok, but come summer - I was sure it would overheat and start to freeze/glitch.
 
 ![image](https://github.com/user-attachments/assets/2ce4a40c-bdec-4fdf-9068-fe31039e465b)
 ![image](https://github.com/user-attachments/assets/f82488f1-c9da-41de-94a6-17d192137aab)
@@ -166,7 +166,7 @@ _"There is no perfect design for an engineer, do not get lost in drawing and re-
 - **Temperature and Humidity(DHT22) and CO2/Temp/Humid(SCD41) devices:** 
 The wiring is really simple for this project. For the **DHT22** sensor - it only has 3 pins: **plus(3.3V)** **ground(-3.3V)** and **Output(Out)**. So any (GRND) pin from ESP32 board connects to sensor's ground, any 3.3V pin from board to sensor's (+) and any numbered pin, which is not specifically stated to be limited to other purposes in this board's documentation, can be connected to sensor's (Out). I have connected (Out) with **GPIO4**. 
 
-Like this(yeah, not very clean soldiering but it does its job):
+Like this(yeah, not very clean soldering but it does its job):
 
 ![Wiring - DHT22 Temp Humid Device](https://github.com/user-attachments/assets/f227a2a9-2204-438f-bf62-832ceb689c9e)
 
