@@ -7,18 +7,18 @@ Article about my DIY Project to engineer and use ESP32 based Temperature, Humidi
 ## Overview
 ## 📖 Table of Contents
 
-1. [💡 Motivation & Goals](#1-motivation--goals)  
+1. [💡 Motivation & Goals](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#1--motivation--goals)
 2. [🔩 Hardware](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#2--hardware)  
-3. [📐 3D Design in Autodesk Inventor](#3-3d-design-in-autodesk-inventor)  
-   - [🔁 First Iteration](#31-first-iteration)  
-   - [🔁 Second Iteration](#32-second-iteration)  
-4. [🔧 Assembly, Wiring and Hardware Specifics](#4-assembly-wiring-and-hardware-specifics)  
-5. [📜 YAML Configuration (ESPHome)](#5-yaml-configuration-esphome)  
-6. [⚖️ Calibration](#6-calibration)  
-7. [🏠 Integration with Home Assistant / 🖥️ UI & Dashboards](#7-integration-with-home-assistant)  
-8. [🌈 Bonus – Visual CO₂ Indicator with RGB LED](#9-bonus--visual-co2-indicator-with-rgb-led)  
-9. [💬 Final Thoughts](#10-final-thoughts)  
-10. [📚 Related Articles](#11-related-articles)
+3. [📐 3D Design in Autodesk Inventor](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#3--3d-design-in-autodesk-inventor)
+   - [🔁 First Iteration](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#31--first-iteration)
+   - [🔁 Second Iteration](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#32--second-iteration) 
+4. [🔧 Assembly, Wiring and Hardware Specifics](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#4--assembly-wiring-and-hardware-specifics) 
+5. [📜 YAML Configuration (ESPHome)](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#5--yaml-configuration-esphome)
+6. [⚖️ Calibration](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#6-%EF%B8%8F-calibration)  
+7. [🏠 Integration with Home Assistant / 🖥️ UI & Dashboards](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#7--integration-with-home-assistant--%EF%B8%8F-ui--dashboards)
+8. [🌈 Bonus – Visual CO₂ Indicator with RGB LED](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#8--bonus--visual-co-indicator-with-rgb-led)
+9. [💬 Final Thoughts](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#9--final-thoughts)  
+10. [📚 Related Articles](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#10--related-articles)
 
 ---
 This article documents the full journey of building DIY ESP32-based smart sensors and cameras for use with Home Assistant (HA). It combines 3D design, prototyping, wiring, firmware configuration, calibration, and final integration into a robust local-first smart home system. 
@@ -153,9 +153,9 @@ The "final", albeit final for this article, design of Sensors and Cameras:
 ![All Sensors - Work desk - final v2 assembled](https://github.com/user-attachments/assets/c6dd6aac-e4ce-4845-bf59-cd2384670b6e)
 
 - **Version 2 - Results:**
-The heating dispersion problem got much better. From +5-8°C degrees I got to +2.8-4.5°C deviation. It is still critical to include such readings in Climate Automation but now it's something which actually can be fixed - we will get to in **[Chapter 6 - Calibration](#6-calibration)**. 
+The heating dispersion problem got much better. From +5-8°C degrees I got to +2.8-4.5°C deviation. It is still critical to include such readings in Climate Automation but now it's something which actually can be fixed - we will get to in **[Chapter 6 - Calibration](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#6-%EF%B8%8F-calibration)**. 
 
-Visual design additions were a surprising delight, considering that now ESP32 dev board built-in RGB LEDs can be used to do some visual aid as explained in **[Visual CO2 Indication Chapter](#9-bonus--visual-co2-indicator-with-rgb-led)**. Of course, functional design of such devices can be improved million times over, but for the purpose of this article I decided to stop and actually try using them in real Smart Home conditions. As the professional engineer buddy of mine(who helped me to make sense of Autodesk Inventor and gave me R&D 101 lessons) explained: 
+Visual design additions were a surprising delight, considering that now ESP32 dev board built-in RGB LEDs can be used to do some visual aid as explained in **[Visual CO2 Indication Chapter](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#8--bonus--visual-co-indicator-with-rgb-led)**. Of course, functional design of such devices can be improved million times over, but for the purpose of this article I decided to stop and actually try using them in real Smart Home conditions. As the professional engineer buddy of mine(who helped me to make sense of Autodesk Inventor and gave me R&D 101 lessons) explained: 
 
 
 _"There is no perfect design for an engineer, do not get lost in drawing and re-drawing lots of blueprints, trying to **think of every detail and aspect in theory**. Try out your designes, fail miserably, get back to board, try againm, fail less... Only then **you will actually make progress**. Through prototyping and iterations."_
@@ -179,7 +179,7 @@ Like this:
 
 
 - **ESP32 Camera devices:** 
-Those came in sets, as seen in image in **[Hardware Chapter](#2-hardware)** with already prebuilt sets of Camera bus boards to be connected to Esp32-S boards and wired Antennas. So no additional wiring was required and only the casing to be built around it remained.
+Those came in sets, as seen in image in **[Hardware Chapter](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#cameras)** with already prebuilt sets of Camera bus boards to be connected to Esp32-S boards and wired Antennas. So no additional wiring was required and only the casing to be built around it remained.
 
 - **Hardware specifications and thoughts:** 
 The hardware is relatively simple, requires 5V power, usually has USB-C/Micro USB ports. ESP32 boards have signal LEDs(Power on, Firmware flash/writing to memory), RGB LED(s) and Reset/Boot buttons. ESP32 Cameras(I have [OV2640](https://blog.arducam.com/ov2640/) in these sets) are fragile, small-frame and limited in there resolution/quality, but can be replaced with more serious counterparts.
