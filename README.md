@@ -758,16 +758,18 @@ The LED changes color depending on air quality:
 ### 🧠 YAML Example:
 
 ```yaml
+# Define a single WS2812 RGB LED connected to GPIO48
 light:
   - platform: neopixelbus
     pin: GPIO48
-    variant: WS2812
-    num_leds: 1
-    type: GRB
+    variant: WS2812         # Type of RGB LED used
+    num_leds: 1             # Only one LED in use
+    type: GRB               # LED color ordering
     name: "CO2/T/H Sensor Bedroom RGB LED"
     id: esp32_led
-    default_transition_length: 1s
+    default_transition_length: 1s  # Smooth transition when turning on/off
 
+# Define global variables to store current RGB values
 globals:
   - id: led_red
     type: int
@@ -776,27 +778,33 @@ globals:
   - id: led_green
     type: int
     restore_value: no
-    initial_value: '255'
+    initial_value: '255'   # Start with green (good air quality)
   - id: led_blue
     type: int
     restore_value: no
     initial_value: '0'
 
+# Script to flash the LED with a color based on CO2 level
 script:
   - id: flash_led
-    mode: restart
+    mode: restart  # Cancel and restart if already running
     then:
       - lambda: |-
           float co2_value = id(scd41co2).state;
+
+          // Default to green = good air quality
           id(led_red) = 0;
           id(led_green) = 255;
           id(led_blue) = 0;
 
+          // Yellow warning: moderate CO2
           if (co2_value > 1000) {
             id(led_red) = 255;
             id(led_green) = 255;
             id(led_blue) = 0;
           }
+
+          // Red warning: high CO2 level
           if (co2_value > 1500) {
             id(led_red) = 255;
             id(led_green) = 0;
@@ -804,23 +812,24 @@ script:
           }
 
       - repeat:
-          count: 5
+          count: 5  # Flash LED 5 times
           then:
             - light.turn_on:
                 id: esp32_led
-                red: !lambda "return id(led_red) / 255.0;"
+                red: !lambda "return id(led_red) / 255.0;"    # Normalize to 0.0–1.0
                 green: !lambda "return id(led_green) / 255.0;"
                 blue: !lambda "return id(led_blue) / 255.0;"
             - delay: 1.5s
             - light.turn_off: esp32_led
             - delay: 1.5s
 
+# Automatically check CO2 level and trigger LED every 60 seconds
 interval:
   - interval: 60s
     then:
       - script.execute: flash_led
 ```
-And here is a video of what how it works/looks:
+And here is a video of how it works/looks like:
 
 [![Visual LED CO2 Level Indication](https://img.youtube.com/vi/ZwWRNItUULs/0.jpg)](https://www.youtube.com/watch?v=ZwWRNItUULs)
 
