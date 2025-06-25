@@ -1056,11 +1056,14 @@ For me, Temperature & Humidity Detector was:
 - Power supply/adapter: $2.65
 - Cable: $1.5
 - 3D Printing parts for a single device: $5.9
-- **Total: $17.63**
 
-Commercial Detector I bought and use at home:
+   **- Total: $17.63**
 
-- **Price(delivery incl.): $10**
+Commercial Detector I bought and use at home - [Link](https://aliexpress.ru/item/1005002941131619.html?sku_id=12000025974520488):
+
+- Price(delivery incl.): $10.04
+
+   **- Total: $10.04**
 
 All the while, we presume that **commercial detector** has low error margin, is powered by a small CR2032 battery, is smaller, more stable and reliable, uses Zigbee wireless protocol instead of Wi-Fi(lower power consumption, less networking configuration), is configured to be power efficient(wake up, trace if there was a change, send readings, go to sleep by default). And it is slick, complete and polished.
 
