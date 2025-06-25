@@ -13,15 +13,13 @@ Article about my DIY Project to engineer and use esp32 based Temperature, Humidi
    - [🔁 First Iteration](#31-first-iteration)  
    - [🔁 Second Iteration](#32-second-iteration)  
 4. [🔧 Assembly, Wiring and Hardware Specifics](#4-assembly-wiring-and-hardware-specifics)  
-5. [📜 YAML Configuration (ESPHome)](#5-yaml-configuration-and-esphome)  
+5. [📜 YAML Configuration (ESPHome)](#5-yaml-configuration-esphome)  
 6. [⚖️ Calibration](#6-calibration)  
 7. [🏠 Integration with Home Assistant](#7-integration-with-home-assistant)  
 8. [🖥️ UI & Dashboards](#8-ui--dashboards)  
-9. [🧰 Final Build & Use](#9-final-build--use)  
-10. [📷 Bonus – ESP32 Cameras](#10-bonus--esp32-cameras)  
-11. [🖼️ Media Gallery](#media-gallery)  
-12. [📚 Related Articles](#related-articles)  
-13. [💬 Final Thoughts](#final-thoughts)  
+9. [🌈 Bonus – Visual CO₂ Indicator with RGB LED](#9-bonus--visual-co2-indicator-with-rgb-led)  
+10. [💬 Final Thoughts](#10-final-thoughts)  
+11. [📚 Related Articles](#11-related-articles)
 
 ---
 This article documents the full journey of building DIY ESP32-based smart sensors and cameras for use with Home Assistant (HA). It combines 3D design, prototyping, wiring, firmware configuration, calibration, and final integration into a robust local-first smart home system. 
@@ -719,34 +717,100 @@ Calibration is always an iterative process. While this current formula may still
 
 ---
 
-## 9. 🧰 Final Build & Use
-- Final assembled sensors labeled with stickers: name, IP, MAC, function
-- Mounted in various rooms with 3M backing or screws
-- Monitored daily via HA and graphs
+## 9. 🌈 Bonus – Visual CO₂ Indicator with RGB LED
+
+To improve usability and glance-based monitoring, I used the onboard WS2812 RGB LED available on my ESP32-S3 boards to display a visual indicator of current CO₂ levels.
+
+The LED changes color depending on air quality:
+- 🟢 Green — Good (CO₂ < 1000 ppm)
+- 🟡 Yellow — Moderate (1000–1500 ppm)
+- 🔴 Red — Poor (CO₂ > 1500 ppm)
+
+### 🔌 Important Notes:
+- You need to **know the exact GPIO pin** your RGB LED is connected to (usually found in board documentation or by experimenting).
+- The LED should be addressable (WS2812 or similar), and configured via `neopixelbus` or `fastled_clockless` in ESPHome.
+
+### 🧠 YAML Example:
+
+```yaml
+light:
+  - platform: neopixelbus
+    pin: GPIO48
+    variant: WS2812
+    num_leds: 1
+    type: GRB
+    name: "CO2/T/H Sensor Bedroom RGB LED"
+    id: esp32_led
+    default_transition_length: 1s
+
+globals:
+  - id: led_red
+    type: int
+    restore_value: no
+    initial_value: '0'
+  - id: led_green
+    type: int
+    restore_value: no
+    initial_value: '255'
+  - id: led_blue
+    type: int
+    restore_value: no
+    initial_value: '0'
+
+script:
+  - id: flash_led
+    mode: restart
+    then:
+      - lambda: |-
+          float co2_value = id(scd41co2).state;
+          id(led_red) = 0;
+          id(led_green) = 255;
+          id(led_blue) = 0;
+
+          if (co2_value > 1000) {
+            id(led_red) = 255;
+            id(led_green) = 255;
+            id(led_blue) = 0;
+          }
+          if (co2_value > 1500) {
+            id(led_red) = 255;
+            id(led_green) = 0;
+            id(led_blue) = 0;
+          }
+
+      - repeat:
+          count: 5
+          then:
+            - light.turn_on:
+                id: esp32_led
+                red: !lambda "return id(led_red) / 255.0;"
+                green: !lambda "return id(led_green) / 255.0;"
+                blue: !lambda "return id(led_blue) / 255.0;"
+            - delay: 1.5s
+            - light.turn_off: esp32_led
+            - delay: 1.5s
+
+interval:
+  - interval: 60s
+    then:
+      - script.execute: flash_led
+```
+And here is a video of it looks like:
+[![Visual LED CO2 Level Indication](https://img.youtube.com/vi/ZwWRNItUULs/0.jpg)](https://www.youtube.com/watch?v=ZwWRNItUULs)
+
+
+You can also tie the LED to motion, alarm states, or other values — just update the script logic.
 
 ---
 
-## 10. 📷 Bonus – ESP32 Cameras
-- ESP32-CAM modules set up with motion detection and streaming
-- RTSP stream integrated into HA Lovelace dashboard
-- Stored SD recordings (motion-based)
-- Future improvements: add PIR sensor or IR LED for night vision
+## 10. 💬 Final Thoughts
+
+This was an intense but rewarding project. I built something real, tangible, and useful for my smart home — and came away with the skills to replicate and expand it anytime.
+
+My hope is that this inspires other makers, engineers, tinkerers, and even beginners to realize they don’t need to buy into expensive ecosystems. You can do so much with some effort, creativity, and a few sensors. Reach out if you want to collaborate or have questions!
 
 ---
 
-## 11. 🖼️ Media Gallery
-✅ Photos of all steps: CAD, printing, wiring, dashboards  
-✅ Video of finished sensors & camera in use  
-📂 [Google Drive Media Folder](https://drive.google.com/drive/folders/your-real-link-here)
-
----
-
-## 12. 📚 Related Articles
-- [AJAX Alarm Integration](https://github.com/AlexeiakaTechnik/AJAX_security-integration-in-Home_Assistant)
-- [Light Automation UX](https://github.com/AlexeiakaTechnik/My-experience-of-improving-Light-Automations-in-Home-Assistant)
+## 11. 📚 Related Articles
 - [HA UI/Dashboards](https://github.com/AlexeiakaTechnik/Practial-and-stylish-Home-Assistant-Dashboards-for-Tablets-and-Mobile-Phones)
-
----
-
-## 13. 💬 Final Thoughts
-This was an intense but rewarding project. I built something real, tangible, and useful for my smart home with the skills to replicate and expand it anytime. I hope it inspires others to build, improve, and learn. Reach out if you want to collaborate, or have questions!
+- [My Repositories/Articles](https://github.com/AlexeiakaTechnik/Alexei-Halaim-Smart-Home-Portfolio_Articles-list)
