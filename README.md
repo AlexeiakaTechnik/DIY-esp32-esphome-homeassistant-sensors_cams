@@ -15,7 +15,7 @@ Article about my DIY Project to engineer and use ESP32 based Temperature, Humidi
 4. [🔧 Assembly, Wiring and Hardware Specifics](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#4--assembly-wiring-and-hardware-specifics) 
 5. [📜 YAML Configuration (ESPHome)](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#5--yaml-configuration-esphome)
 6. [⚖️ Calibration](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#6-%EF%B8%8F-calibration)  
-7. [🏠 Integration with Home Assistant / 🖥️ UI & Dashboards](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#7--integration-with-home-assistant--%EF%B8%8F-ui--dashboards)
+[7. 🏠 Integration with Home Assistant - 🖥️ UI & Dashboards](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#7--home-assistant-integration--%EF%B8%8F-dashboards)
 8. [🌈 Bonus – Visual CO₂ Indicator with RGB LED](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#8--bonus--visual-co-indicator-with-rgb-led)
 9. [💬 Final Thoughts](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#9--final-thoughts)  
 10. [📚 Related Articles](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#10--related-articles)
