@@ -1,0 +1,63 @@
+# A stack-in-card used to group multiple graph cards with custom background and styling
+
+type: custom:stack-in-card
+card_mod:
+  style: |
+    ha-card {
+      background-image: url('/api/image/serve/REDACTED_IMAGE_ID/512x512');  # Set custom background image
+      background-size: cover;
+      background-blend-mode: overlay;
+      background-color: rgba(0, 0, 0, 0.6);  # Semi-transparent overlay for readability
+      border: 3px solid;
+      border-radius: 5px;
+      --ha-card-header-color: orange;
+      --ha-card-header-font-size: 30px;
+      min-height: 350px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+mode: vertical  # Arrange child cards vertically
+cards:
+  - type: heading
+    icon: mdi:home-thermometer
+    heading: Room Sensor
+    heading_style: title
+    badges:
+      - type: entity
+        entity: sensor.iot_esp32_room_co2th_temperature_calibrated
+        show_state: true
+        show_icon: true
+        state_content: last_changed
+    card_mod:
+      style: |
+        ha-card { align-items: center; }
+        .title > p { color: orange; font-size: 18px; }
+        .title ha-icon {
+          --icon-primary-color: orange;
+          animation: rotating 2s linear infinite;  # Animated icon to suggest live reading
+        }
+
+  - type: sensor
+    graph: line
+    entity: sensor.iot_esp32_room_co2th_temperature_calibrated
+    name: Temperature
+    hours_to_show: 3
+    detail: 2  # Detail level for the graph resolution
+
+  - type: sensor
+    graph: line
+    entity: sensor.iot_esp32_room_co2th_humidity
+    name: Humidity
+    hours_to_show: 3
+    detail: 2
+
+  - type: sensor
+    graph: line
+    entity: sensor.iot_esp32_room_co2th_co2
+    name: CO2
+    hours_to_show: 3
+    detail: 2
+
+view_layout:
+  grid-area: d1  # Used if you're placing this card in a grid layout

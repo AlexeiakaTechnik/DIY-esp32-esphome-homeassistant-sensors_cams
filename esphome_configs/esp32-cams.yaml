@@ -1,0 +1,137 @@
+esphome:
+  name: "home-esp32-cam-room"
+  friendly_name: Home ESP32 Cam – Room
+
+esp32:
+  board: esp32dev  # Generic ESP32 Dev Board
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+  level: VERBOSE
+  tx_buffer_size: 256
+
+# Enable Home Assistant API + custom service for tuning camera settings on the fly
+api:
+  services:
+    - service: camera_set_param
+      variables:
+        name: string
+        value: int
+      then:
+        - lambda: |-
+            bool state_return = false;
+            if (("contrast" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_contrast(value); state_return = true; }
+            if (("brightness" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_brightness(value); state_return = true; }
+            if (("saturation" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_saturation(value); state_return = true; }
+            if (("special_effect" == name) && (value >= 0U) && (value <= 6U)) { id(espcam).set_special_effect((esphome::esp32_camera::ESP32SpecialEffect)value); state_return = true; }
+            if (("aec_mode" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_aec_mode((esphome::esp32_camera::ESP32GainControlMode)value); state_return = true; }
+            if (("aec2" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_aec2(value); state_return = true; }
+            if (("ae_level" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_ae_level(value); state_return = true; }
+            if (("aec_value" == name) && (value >= 0U) && (value <= 1200U)) { id(espcam).set_aec_value(value); state_return = true; }
+            if (("agc_mode" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_agc_mode((esphome::esp32_camera::ESP32GainControlMode)value); state_return = true; }
+            if (("agc_value" == name) && (value >= 0U) && (value <= 30U)) { id(espcam).set_agc_value(value); state_return = true; }
+            if (("agc_gain_ceiling" == name) && (value >= 0U) && (value <= 6U)) { id(espcam).set_agc_gain_ceiling((esphome::esp32_camera::ESP32AgcGainCeiling)value); state_return = true; }
+            if (("wb_mode" == name) && (value >= 0U) && (value <= 4U)) { id(espcam).set_wb_mode((esphome::esp32_camera::ESP32WhiteBalanceMode)value); state_return = true; }
+            if (("test_pattern" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_test_pattern(value); state_return = true; }
+
+            if (true == state_return) {
+              id(espcam).update_camera_parameters();
+            } else {
+              ESP_LOGW("esp32_camera_set_param", "Error in name or data range");
+            }
+
+# OTA updates
+ota:
+  - platform: esphome
+    password: "REPLACE_WITH_PASSWORD"
+
+# Network settings (static IP recommended for stability)
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  power_save_mode: none
+  domain: .your-domain.local
+  manual_ip:
+    static_ip: 192.168.1.212
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+    dns1: 192.168.1.1
+    dns2: 8.8.8.8
+  ap:
+    ssid: "ESP32-CAM-Fallback"
+    password: "StrongFallbackPass"
+
+# Camera module configuration
+esp32_camera:
+  id: espcam
+  name: "Room Camera"
+  external_clock:
+    pin: GPIO0
+    frequency: 8MHz
+  i2c_pins:
+    sda: GPIO26
+    scl: GPIO27
+  data_pins: [GPIO5, GPIO18, GPIO19, GPIO21, GPIO36, GPIO39, GPIO34, GPIO35]
+  vsync_pin: GPIO25
+  href_pin: GPIO23
+  pixel_clock_pin: GPIO22
+  power_down_pin: GPIO32
+  resolution: 1024x768  # SVGA
+  jpeg_quality: 30       # 10–63 (lower is better quality)
+  max_framerate: 25.0fps
+  idle_framerate: 0.1fps
+  frame_buffer_count: 2
+  vertical_flip: false
+  horizontal_mirror: false
+  brightness: 2
+  contrast: 1
+  special_effect: none
+  aec_mode: auto
+  aec2: false
+  ae_level: 0
+  aec_value: 300
+  agc_mode: auto
+  agc_gain_ceiling: 4x
+  agc_value: 0
+  wb_mode: auto
+
+# Lights (onboard white LED & red indicator)
+output:
+  - platform: ledc
+    channel: 2
+    pin: GPIO4
+    id: espCamLED
+  - platform: gpio
+    pin:
+      number: GPIO33
+      inverted: True
+    id: gpio_33
+
+light:
+  - platform: monochromatic
+    output: espCamLED
+    name: Room Cam Spotlight
+  - platform: binary
+    output: gpio_33
+    name: Room Cam Status LED
+
+# Restart switch + availability sensor
+switch:
+  - platform: restart
+    name: Room Cam Restart
+
+binary_sensor:
+  - platform: status
+    name: Room Cam Online
+
+# Optional fallback access point
+captive_portal:
+
+# Built-in Web Server (stream & snapshot)
+esp32_camera_web_server:
+  - port: 8080
+    mode: stream
+  - port: 8081
+    mode: snapshot

@@ -1,0 +1,71 @@
+# Room ESP32-CAM stream in a card with live feed and interactive overlay buttons
+
+type: custom:stack-in-card
+card_mod:
+  style: |
+    ha-card {
+      border: 3px solid;
+      border-radius: 5px;
+      --ha-card-header-color: orange;
+      --ha-card-header-font-size: 30px;
+    }
+title: Room X
+mode: vertical
+cards:
+  - type: picture-glance
+    camera_view: live  # Show live camera feed
+    camera_image: camera.room_esp32_cam
+    entity: automation.toggle_tv  # Or any entity really
+    entities:
+      - light.entryway_ceiling_light
+      - light.courtyard_light
+      - lock.front_door
+      - lock.gate_lock
+      - switch.charcoal_stove
+    hold_action:
+      action: navigate
+      navigation_path: https://REDACTED_URL/stream.html?src=entryway_cam&mode=mjpeg
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          title: Room X
+          timeout: 600000
+          content:
+            type: picture-elements
+            camera_view: live
+            camera_image: camera.room_esp32_cam
+            elements:
+              - type: state-icon
+                icon: mdi:ceiling-light
+                style: { top: 5%, right: 80% }
+                entity: light.entryway_ceiling_light
+                tap_action: { action: toggle }
+
+              - type: state-icon
+                icon: mdi:spotlight
+                style: { top: 5%, right: 70% }
+                entity: light.courtyard_light
+                tap_action: { action: toggle }
+
+              - type: state-icon
+                icon: mdi:lock
+                style: { top: 5%, right: 60% }
+                entity: lock.front_door
+                tap_action: { action: toggle }
+
+              - type: state-icon
+                icon: mdi:lock
+                style: { top: 5%, right: 50% }
+                entity: lock.gate_lock
+                tap_action: { action: toggle }
+
+              - type: state-icon
+                icon: mdi:gas-burner
+                style: { top: 5%, right: 40% }
+                entity: switch.charcoal_stove
+                tap_action: { action: toggle }
+
+view_layout:
+  grid-area: d2

@@ -1,0 +1,64 @@
+esphome:
+  name: esp32-temphumid-sensor-room
+  friendly_name: Home Temp & Humidity Sensor – Room
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino  # Using Arduino framework for stability and compatibility
+
+# Enable verbose logging via UART
+logger:
+  level: DEBUG
+  baud_rate: 115200  # Default UART speed for serial logging
+
+# Enable API for Home Assistant integration
+api:
+  encryption:
+    key: "REPLACE_WITH_YOUR_API_ENCRYPTION_KEY"
+  reboot_timeout: 1min  # Reboot if no API connection for 1 minute
+  port: 6053  # Optional, default ESPHome port
+
+# Enable OTA (Over-the-Air) firmware updates
+ota:
+  - platform: esphome
+    password: "REPLACE_WITH_YOUR_OTA_PASSWORD"
+
+# Wi-Fi Configuration
+wifi:
+  ssid: !secret wifi_ssid         # Use secrets.yaml to protect credentials
+  password: !secret wifi_password
+  power_save_mode: none           # Better responsiveness
+  fast_connect: true              # Skip scanning other networks
+  domain: .your-domain.local      # Optional: DNS domain for discovery
+  manual_ip:                      # Static IP setup for reliability
+    static_ip: 192.168.1.175      # Replace with IP of your choice
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+    dns1: 192.168.1.1
+    dns2: 8.8.8.8
+
+# Temperature and Humidity Sensor – AM2302 (a DHT22 variant)
+sensor:
+  - platform: dht
+    pin: GPIO4
+    model: AM2302
+    temperature:
+      name: "Room Temperature"
+      unit_of_measurement: "°C"
+      accuracy_decimals: 1
+    humidity:
+      name: "Room Humidity"
+      unit_of_measurement: "%"
+      accuracy_decimals: 1    
+    update_interval: 10s  # Refresh every 10 seconds
+
+# Built-in or external RGB LED for status/feedback
+light:
+  - platform: neopixelbus
+    pin: GPIO48
+    variant: WS2812          # Popular individually addressable RGB LED
+    num_leds: 1              # Single LED
+    type: GRB                # Color ordering format
+    name: "Sensor RGB LED"
+    id: esp32_led
