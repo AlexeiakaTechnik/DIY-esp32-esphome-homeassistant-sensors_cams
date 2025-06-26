@@ -73,6 +73,7 @@ Initial version of devices was super simple and, as you can see on pictures belo
 *ESP32 Cameras, on the other hand, were designed kind of ok, there isn't much to it, but still they were getting too warm.
 
 - **First I created the board, sensors and ESP32 Cams Inventor 3D models using caliper to take measurements:**
+
 ESP32 S3 Dev board:
 ![Inventor - esp32 dev board](https://github.com/user-attachments/assets/c4cf87f9-73df-47ff-bd0c-d35ac12d8e04)
 
