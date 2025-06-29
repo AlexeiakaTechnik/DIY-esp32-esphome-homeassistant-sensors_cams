@@ -64,7 +64,7 @@ I have to be honest, first thing that really picked my inerest while resarching 
 ---
 
 ## 3. 📐 3D Design in Autodesk Inventor
-I decided to approach this thoroughly and arranged a short r&d/engineering course with my friend, who is a seasoned mechanical engineer. Basically to learn begginer things in Autodesk Inventor, how 3D printing works, how to prototype and test. Really - you can do all of that online, there are great articles/youtube channels on how to do basic stuff in Inventor, and you can always find someone nearby who will print you your details, for a modest price, if you provide them with .STEP/.STM files from Inventor.
+I decided to approach this thoroughly and arranged a short r&d/engineering course with my friend, who is a seasoned mechanical engineer. Basically to learn begginer things in Autodesk Inventor, how 3D printing works, how to prototype and test. Really - you can do all of that online, there are great articles/youtube channels on how to do basic stuff in Inventor, and you can always find someone nearby who will print you your details, for a modest price, if you provide them with .STEP/.STL files from Inventor.
 
 ### 3.1. 🔁 First Iteration
 - **Version 1:**
