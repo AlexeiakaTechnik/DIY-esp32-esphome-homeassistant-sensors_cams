@@ -186,7 +186,7 @@ Those came in sets, as seen in image in **[Hardware Chapter](https://github.com/
 The hardware is relatively simple, requires 5V power, usually has USB-C/Micro USB ports. ESP32 boards have signal LEDs(Power on, Firmware flash/writing to memory), RGB LED(s) and Reset/Boot buttons. ESP32 Cameras(I have [OV2640](https://blog.arducam.com/ov2640/) in these sets) are fragile, small-frame and limited in there resolution/quality, but can be replaced with more serious counterparts.
 
 **IMPORTANT NOTE!**
-There is a really, _really_ imoprtant, critical note here!!! Do not buy cheap-ass ESP32 dev boards unless you want to go down a rabbit hole of guessing pinouts and missing documentation. If it costs under $4, something’s wrong — do make sure it’s an original board. Example - Espressif(I got it's knock off): almost $20 to my address [Link](https://aliexpress.ru/item/1005004494348761.html?sku_id=12000032953296653&spm=a2g2w.productlist.search_results.5.5863bc74XreuNA) Trust me, it’s worth the few extra bucks. Oterwise buying cheap components is a lottery. I ended up with 1 defective Esp32 S3 board, 1 fully defective esp32 Cam set and 2 broken DHT22 sensors. 
+There is a really, _really_ imoprtant, critical note here!!! Do not buy suspeciusly cheap ESP32 dev boards unless you want to go down a rabbit hole of guessing pinouts and missing documentation. If it costs under $4, something’s wrong — do make sure it’s an original board. Example - Espressif(I got it's knock off): almost $20 to my address [Link](https://aliexpress.ru/item/1005004494348761.html?sku_id=12000032953296653&spm=a2g2w.productlist.search_results.5.5863bc74XreuNA) Trust me, it’s worth the few extra bucks. Oterwise buying cheap components is a lottery. I ended up with 1 defective Esp32 S3 board, 1 fully defective esp32 Cam set and 2 broken DHT22 sensors. 
 
 Other important thing to consider - those devices require GOOD Wi-Fi signal to operate reliably. Especially if we are talking about Cameras. For the CO2/Temperature/Humidity Sensors it's not that big of a deal, they dont have to send as much data. But, for ESP32 Cams you want your Wi-Fi to really reach them. Such cameras are rarely good for full on video security/survailance solutions but may good enogh to put your eyes on something critical in case other alarms/sensors go off - like electrical switchboxes, boilers, solar inverters/batteries/power walls or just common  kitchens with with fire hazards. 
 
@@ -667,7 +667,7 @@ Where:
 
 ### 📊 Example Calibration Table
 
-| Time  | Real Temp (Thermometer) | Raw Sensor | Difference |
+| Time  | Real Temp (Thermometer) | Raw Sensor | Difference, ∆ |
 |-------|--------------------------|------------|------------|
 | 10:00 | 24.3 °C                  | 28.6 °C    | +4.3 °C    |
 | 10:15 | 25.1 °C                  | 29.0 °C    | +3.9 °C    |
@@ -727,6 +727,9 @@ Calibration is always an iterative process. While this current formula may still
 ## 7. 🏠 Home Assistant Integration & 🖥️ Dashboards
 
 This ESP32-based smart sensor integrates **natively with Home Assistant** via the **ESPHome API**, allowing for **real-time data access** and **remote control** of its RGB LED and sensors. Every entity is named following a **consistent and readable convention** such as `sensor.bedroom_co2`, `sensor.bedroom_temperature`, and `light.bedroom_rgb_led` to ensure clarity when building automations and dashboards.
+
+Example and description:
+`sensor.bedroom_co2` where `bedroom` is a place where you put your device and `co2` is the purpose of device, also be sure to add device to an [area](https://www.home-assistant.io/docs/organizing/areas/), add some [labels](https://www.home-assistant.io/docs/organizing/labels/) to it and keep the whole system in your organized unified way - for easier navigation and control.
 
 ### 🧰 HACS Add-ons & Dashboard Enhancements
 
@@ -1044,9 +1047,9 @@ You can also tie the LED to motion, alarm states, or other values — just updat
 
 ## 9. 💬 Final Thoughts
 
-This was an intense, prolonged and sometimes frustrating project. But in measure of experience rewards it is priceless to me. I built something real, tangible, and useful for my smart home. Came away with the skills to replicate and expand it, with curiosity of more complicated solutions and with dread of what actual R&D engineers have to go through. Nah, just kidding, those guys and gals have an awesome job - tinker with stuff and get paid for it.
+This was an intense, prolonged and sometimes frustrating project. But in measure of experience rewards it is priceless to me. I built something real, tangible, and useful for my smart home. Came away with the skills to replicate and expand it, with curiosity of more complicated solutions and with a slight understanding of what actual R&D engineers have to go through.
 
-Regarding DIY projects like this - well, it's a hobby. If you want to compete with commercial devices - you definately have to find a niche, maybe some open source project, promotion for specific crowd, like a lot of bloggers/youtubers/communities end up with their own designs/brands sold to fellow enthusiasts. But the mass market is powered by whole teams and departments who design IoT devices for a living... 
+Regarding DIY projects like this - well, it's a hobby. If you want to compete with commercial devices - you definately have to find a niche, maybe some open source project, promotion for specific crowd, like a lot of bloggers/youtubers/communities end up with their own designs/brands sold to fellow enthusiasts. But the mass market is powered by whole teams and departments who design IoT devices for a living.
 
 So let's **compare prices**, just the parts for DIY vs ready-available sensors. No labor, no hours put into learning/research, no fails, no faulty parts and no configuration/calibration hassle. 
 
@@ -1070,7 +1073,22 @@ All the while, we presume that **commercial detector** has low error margin, is 
 
 But! The **DIY ESP32 based platform** can be transformed, expanded with additional hardware, additional sensors to additional pins, used for robots, lighting, BLE beacon tracking, physical automations - maybe several of those at the same time. It can be re-configured, updated, fully controlled. It does not require cloud, will not send any data anywhere you don't want it to. And it can be a great start to learn other things if you are into it.
 
-So, my final verdict is: Be sure to ask the right question - What are **you** looking for?
+| Pros and Cons | DIY  | Off the shelf products |
+| ------------- | ------------- | ------------- |
+| Price  | ✔️ or ❌ Can be more or less  | ✔️ Usually cheaper |
+| Time/Labor  | ❌ Very consuming  | ✔️ Minimal  |
+| Quality  | ✔️ or ❌ Usually DIY is of a less quality  | ✔️ or ❌ Sometimes market devices are less reliable(price dependant)  |
+| Reliability  | ❌ My opinion - DIY is generally less reliable  | ✔️ Tested by professsionals for mass market  |
+| Power consumption  | ❌ Almost always drain more power | ✔️ Anything not related to intended fu8nctionality is trimmed/minimized  |
+| Size/footprint  | ❌ Almost always larger | ✔️ Optimized for less materials needed for production  |
+| Visiual design  | ✔️ or ❌ Depends on your skills and involvement | ✔️ Designed for visuall appeal  |
+| Expandability/Modification  | ✔️ Very little imitations | ❌ Little to none  |
+| Updates  | ✔️ ESPHome Framework is updayed regularly and you can update your config anytime | ✔️ or ❌ Depends on brand  |
+| Local vs Cloud  | ✔️ Fully 100% local | ✔️ or ❌ Depends on brand, but usually some sort of cloud is involved at least for installation  |
+| Privacy  | ✔️ Fully 100% private unless you are hacked | ✔️ or ❌ Depends on brand, but usually some sort of data is used by producer  |
+| Learning experience  | ✔️ Big plus to your portfolio | ✔️ or ❌ Better then nothing and there are kind of commercial DIY sets/Opensource commercial projects  |
+
+So, my final verdict is: Be sure to ask the right question - What are **you** looking for? Lab project, just learning, limited device ramge for your home or commercial project.
 
 And my hope is that this inspires other makers, engineers from other areas, tinkerers, and Smart Home beginners to realize they don’t need to buy into expensive ecosystems or pricy DIY sets to start experimenting. You can do so much more with some effort, creativity, imagination and a few sensors. Please reach out if you want to collaborate, have questions or just want to share your experience!
 
