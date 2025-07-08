@@ -27,7 +27,7 @@ This project showcases a deep-dive into technical implementation, creativity, an
 
 ---
 
-## 1. 💡 Motivation & Goals
+## 1. 💡 Motivation & Goals               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 I have to be honest, first thing that really picked my inerest while resarching ESP32 devices and ESPHome system are very cheap-priced parts from Aliexpress. Why buy [brand](https://aliexpress.ru/item/1005004716755040.html?sku_id=12000030213503813&spm=a2g2w.productlist.search_results.0.290a1bb7HElnHT) [devices](https://aliexpress.ru/item/1005007201324957.html?sku_id=12000039786855672&spm=a2g2w.productlist.search_results.8.290a1bb7HElnHT) when you can, easily do it yourself with [cheap](https://aliexpress.ru/item/1005005501298967.html?spm=a2g2w.orderdetail.0.0.4c7137d4TnwiZl&sku_id=12000039876819440&_ga=2.230843423.1283486305.1750753652-1749897236.1735401406) [available](https://aliexpress.ru/item/33037061522.html?spm=a2g2w.orderdetail.0.0.4c1937d4itn8ht&sku_id=12000032670222591&_ga=2.230843423.1283486305.1750753652-1749897236.1735401406) parts? Or so it seemed like anyway. Then I thought maybe it might be a good learning and practical experience. Then it got more compllicated and.. insightfull. Additionally - I considered that commercial devices are often overpriced, cloud-dependent, or offer limited flexibility. DIY devices, while more effort, offer ultimate control, better privacy, and an opportunity to truly learn the internals of smart home automation.
 
 **Project Goals:**
@@ -39,7 +39,7 @@ I have to be honest, first thing that really picked my inerest while resarching 
 
 ---
 
-## 2. 🔩 Hardware
+## 2. 🔩 Hardware               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 ### Microcontroller:
 - ESP32-S3 WROOM-1 Dev Board (Wi-Fi + USB-C) [Link](https://aliexpress.ru/item/1005005501298967.html?spm=a2g2w.orderdetail.0.0.4c7137d4TnwiZl&sku_id=12000039876819440&_ga=2.230843423.1283486305.1750753652-1749897236.1735401406)
 ![esp32 s3 dev board ali](https://github.com/user-attachments/assets/af178479-dccb-434f-9971-bea8720ae2f3)
@@ -63,7 +63,7 @@ I have to be honest, first thing that really picked my inerest while resarching 
 
 ---
 
-## 3. 📐 3D Design in Autodesk Inventor
+## 3. 📐 3D Design in Autodesk Inventor               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 I decided to approach this thoroughly and arranged a short r&d/engineering course with my friend, who is a seasoned mechanical engineer. Basically to learn begginer things in Autodesk Inventor, how 3D printing works, how to prototype and test. Really - you can do all of that online, there are great articles/youtube channels on how to do basic stuff in Inventor, and you can always find someone nearby who will print you your details, for a modest price, if you provide them with .STEP/.STL files from Inventor.
 
 ### 3.1. 🔁 First Iteration
@@ -125,7 +125,7 @@ After soldering wires, physical assembly, ESPHome configuration upload and a few
 ![image](https://github.com/user-attachments/assets/2ce4a40c-bdec-4fdf-9068-fe31039e465b)
 ![image](https://github.com/user-attachments/assets/f82488f1-c9da-41de-94a6-17d192137aab)
 
-### 3.2. 🔁 Second Iteration
+### 3.2. 🔁 Second Iteration               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 - **Version 2 - Learning from mistakes:** 
 I got back to Inventor and redesigned casings with better airflow, mounting slots, compact layout. And added some design elements - Home Assistant logo as a vent! 
 
@@ -162,7 +162,7 @@ Visual design additions were a surprising delight, considering that now ESP32 de
 _"There is no perfect design for an engineer, do not get lost in drawing and re-drawing lots of blueprints, trying to **think of every detail and aspect in theory**. Try out your designes, fail miserably, get back to board, try againm, fail less... Only then **you will actually make progress**. Through prototyping and iterations."_
 
 
-## 4. 🔧 Assembly, Wiring and Hardware Specifics
+## 4. 🔧 Assembly, Wiring and Hardware Specifics               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 - **Temperature and Humidity(DHT22) and CO2/Temp/Humid(SCD41) devices:** 
 The wiring is really simple for this project. For the **DHT22** sensor - it only has 3 pins: **plus(3.3V)** **ground(-3.3V)** and **Output(Out)**. So any (GRND) pin from ESP32 board connects to sensor's ground, any 3.3V pin from board to sensor's (+) and any numbered pin, which is not specifically stated to be limited to other purposes in this board's documentation, can be connected to sensor's (Out). I have connected (Out) with **GPIO4**. 
 
@@ -197,7 +197,7 @@ To be fair, ESP32 Cams are successfully used as with Object detection/recognitio
 
 ---
 
-## 5. 📜 YAML Configuration (ESPHome)
+## 5. 📜 YAML Configuration (ESPHome)               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 
 ESPHome is a great place to start doing your DIY IOT(Internet Of Things) devices and finding custom approaches to unusual Smart Home challenges. As stated on their [web-site](https://esphome.io/):
 
@@ -595,7 +595,7 @@ But, maybe you have a great network with Mikrotiks/Ubiquty/PFsense/etc. devices 
 ---
 
 
-## 6. ⚖️ Calibration
+## 6. ⚖️ Calibration               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 When building DIY devices, raw data from hardware sensors often requires calibration to become reliable. Sensor readings may drift due to component tolerances, heat, or design flaws (such as proximity to heat sources or factory defects). Calibrating ensures the temperature (and other values) shown in Home Assistant reflect real-world conditions AND can be used in more complex Climate Automations without additional adjustments. For ESPHome configurations, we can add any offsets here, as an additional sensor platform in 
 ```yaml 
 sensor:
@@ -665,7 +665,7 @@ Where:
 
 ---
 
-### 📊 Example Calibration Table
+### 📊 Example Calibration Table               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 
 | Time  | Real Temp (Thermometer) | Raw Sensor | Difference, ∆ |
 |-------|--------------------------|------------|------------|
@@ -713,7 +713,7 @@ sensor:
 
 ---
 
-### ✅ Results & Final Thoughts
+### ✅ Results & Final Thoughts               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 
 - **Before Calibration:** ~+5 to +8°C error due to heat buildup
 - **After Calibration:** Reduced to ~+0.6 to +1.2°C error
@@ -724,7 +724,7 @@ Calibration is always an iterative process. While this current formula may still
 
 ---
 
-## 7. 🏠 Home Assistant Integration & 🖥️ Dashboards
+## 7. 🏠 Home Assistant Integration & 🖥️ Dashboards               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 
 This ESP32-based smart sensor integrates **natively with Home Assistant** via the **ESPHome API**, allowing for **real-time data access** and **remote control** of its RGB LED and sensors. Every entity is named following a **consistent and readable convention** such as `sensor.bedroom_co2`, `sensor.bedroom_temperature`, and `light.bedroom_rgb_led` to ensure clarity when building automations and dashboards.
 
@@ -746,7 +746,7 @@ To enhance the user interface and extend default functionality, several HACS (Ho
 
 ---
 
-### 🔧 Usage in Home Assistant
+### 🔧 Usage in Home Assistant               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 
 Sensor data and camera feeds are utilized in several practical ways:
 
@@ -843,7 +843,7 @@ view_layout:
 
 ---
 
-### 📸 Dashboard Example 2: ESP32 Camera Card with Controls
+### 📸 Dashboard Example 2: ESP32 Camera Card with Controls               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 
 Dashboard screenshot:
 
@@ -938,7 +938,7 @@ OTA (Over-the-Air) updates allow you to push firmware and configuration changes 
 
 ---
 
-### 📌 More Resources
+### 📌 More Resources               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 
 If you're curious about how these dashboards were designed, check out the full write-up and YAML repo here:\
 👉 [**Home Assistant Dashboards (Tablet + Mobile)**](https://github.com/AlexeiakaTechnik/Practial-and-stylish-Home-Assistant-Dashboards-for-Tablets-and-Mobile-Phones)
@@ -949,7 +949,7 @@ Also, don’t forget to read the documentation of these amazing HACS extensions 
 
 ---
 
-## 8. 🌈 Bonus – Visual CO₂ Indicator with RGB LED
+## 8. 🌈 Bonus – Visual CO₂ Indicator with RGB LED               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 
 To improve usability and glance-based monitoring, I used the onboard WS2812 RGB LED available on my ESP32-S3 boards to display a visual indicator of current CO₂ levels.
 
@@ -1045,7 +1045,7 @@ You can also tie the LED to motion, alarm states, or other values — just updat
 
 ---
 
-## 9. 💬 Final Thoughts
+## 9. 💬 Final Thoughts               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 
 This was an intense, prolonged and sometimes frustrating project. But in measure of experience rewards it is priceless to me. I built something real, tangible, and useful for my smart home. Came away with the skills to replicate and expand it, with curiosity of more complicated solutions and with a slight understanding of what actual R&D engineers have to go through.
 
@@ -1094,6 +1094,6 @@ And my hope is that this inspires other makers, engineers from other areas, tink
 
 ---
 
-## 10. 📚 Related Articles
+## 10. 📚 Related Articles               <sub>[⬆️ Back to Table of Contents](#table-of-contents)</sub>
 - [HA UI/Dashboards](https://github.com/AlexeiakaTechnik/Practial-and-stylish-Home-Assistant-Dashboards-for-Tablets-and-Mobile-Phones)
 - [My Repositories/Articles](https://github.com/AlexeiakaTechnik/Alexei-Halaim-Smart-Home-Portfolio_Articles-list)
