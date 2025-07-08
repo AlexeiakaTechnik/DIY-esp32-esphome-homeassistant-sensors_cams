@@ -1,24 +1,24 @@
 ![All Sensors - Work desk 1](https://github.com/user-attachments/assets/a0f44efd-c6e8-4914-a172-ff47eea20a60)
 # Engineering DIY ESP32 Sensors & Cameras for Home Assistant
-Article about my DIY Project to engineer and use ESP32 based Temperature, Humidity, CO2 sensors and Cameras with ESPHome framework for Home Assistant. Design(Autodesk Inventor), 3D printing, wiring, learning design flaws, iterating, configuring and calibrating is explained. Thoughts and conclusions on DIY IOT(Internet of Things) devices and how they differ in hands-on experience(and price) from commercial products.
+_Article about my DIY Project to engineer and use ESP32 based Temperature, Humidity, CO2 sensors and Cameras with ESPHome framework for Home Assistant. Design(Autodesk Inventor), 3D printing, wiring, learning design flaws, iterating, configuring and calibrating is explained. Thoughts and conclusions on DIY IOT(Internet of Things) devices and how they differ in hands-on experience(and price) from commercial products._
 
 
 
 ## Overview
 ## 📖 Table of Contents
 
-1. [💡 Motivation & Goals](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#1--motivation--goals)
-2. [🔩 Hardware](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#2--hardware)  
-3. [📐 3D Design in Autodesk Inventor](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#3--3d-design-in-autodesk-inventor)
+1. [💡 Motivation & Goals](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#1--motivation--goals---------------%EF%B8%8F-back-to-table-of-contents)
+2. [🔩 Hardware](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#2--hardware--------------%EF%B8%8F-back-to-table-of-contents)
+3. [📐 3D Design in Autodesk Inventor](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#3--3d-design-in-autodesk-inventor---------------%EF%B8%8F-back-to-table-of-contents)
    - [🔁 First Iteration](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#31--first-iteration)
-   - [🔁 Second Iteration](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#32--second-iteration) 
-4. [🔧 Assembly, Wiring and Hardware Specifics](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#4--assembly-wiring-and-hardware-specifics) 
-5. [📜 YAML Configuration (ESPHome)](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#5--yaml-configuration-esphome)
-6. [⚖️ Calibration](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#6-%EF%B8%8F-calibration)  
-7. [🏠 Integration with Home Assistant - 🖥️ UI & Dashboards](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#7--home-assistant-integration--%EF%B8%8F-dashboards)
-8. [🌈 Bonus – Visual CO₂ Indicator with RGB LED](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#8--bonus--visual-co-indicator-with-rgb-led)
-9. [💬 Final Thoughts](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#9--final-thoughts)  
-10. [📚 Related Articles](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#10--related-articles)
+   - [🔁 Second Iteration](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#32--second-iteration--------------%EF%B8%8F-back-to-table-of-contents)
+4. [🔧 Assembly, Wiring and Hardware Specifics](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#4--assembly-wiring-and-hardware-specifics---------------%EF%B8%8F-back-to-table-of-contents)
+5. [📜 YAML Configuration (ESPHome)](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#5--yaml-configuration-esphome--------------%EF%B8%8F-back-to-table-of-contents)
+6. [⚖️ Calibration](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#6-%EF%B8%8F-calibration---------------%EF%B8%8F-back-to-table-of-contents)
+7. [🏠 Integration with Home Assistant - 🖥️ UI & Dashboards](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#7--home-assistant-integration--%EF%B8%8F-dashboards---------------%EF%B8%8F-back-to-table-of-contents)
+8. [🌈 Bonus – Visual CO₂ Indicator with RGB LED](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#8--bonus--visual-co-indicator-with-rgb-led--------------%EF%B8%8F-back-to-table-of-contents)
+9. [💬 Final Thoughts ](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#9--final-thoughts---------------%EF%B8%8F-back-to-table-of-contents)
+10. [📚 Related Articles](https://github.com/AlexeiakaTechnik/DIY-esp32-esphome-homeassistant-sensors_cams/blob/main/README.md#10--related-articles--------------%EF%B8%8F-back-to-table-of-contents)
 
 ---
 This article documents the full journey of building DIY ESP32-based smart sensors and cameras for use with Home Assistant (HA). It combines 3D design, prototyping, wiring, firmware configuration, calibration, and final integration into a robust local-first smart home system. 
